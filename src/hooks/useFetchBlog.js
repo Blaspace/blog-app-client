@@ -2,9 +2,9 @@ import { useContext } from "react";
 import AllContext from "../contexts/AllContext";
 
 function useFetchBlog() {
-  const { setBlog } = useContext(AllContext);
+  const { setBlog, uri } = useContext(AllContext);
   const getBlog = () => {
-    fetch("http://localhost:3500/blog", {
+    fetch(`${uri}/blog`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
     })

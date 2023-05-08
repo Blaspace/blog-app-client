@@ -1,16 +1,18 @@
 import ProfileUI from "../component/ProfileUl";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Newblog from "../component/Newblog";
 import AllBlog from "../component/AllBlog";
 import LeftSingleUser from "../component/LeftSingleUser";
 import SingleUserHeading from "../component/SingleUserHeading";
 import { useParams } from "react-router";
+import AllContext from "../contexts/AllContext";
 
 function Home() {
   const params = useParams();
   const [singleUser, setSingleUser] = useState({});
+  const { uri } = useContext(AllContext);
   useEffect(() => {
-    fetch(`http://localhost:3500/singleuser/${params.id}`, {
+    fetch(`${uri}/singleuser/${params.id}`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
     })

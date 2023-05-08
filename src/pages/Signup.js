@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import AllContext from "../contexts/AllContext";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -10,11 +11,12 @@ function Signup() {
   const [state, setState] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { uri } = useContext(AllContext);
 
   useEffect(() => {
     const accesstoken = localStorage.getItem("jwt");
 
-    fetch("http://localhost:3500/verify", {
+    fetch(`${uri}/verify`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({ accesstoken }),
@@ -30,7 +32,7 @@ function Signup() {
   const handleSignup = async () => {
     const newObj = { username, email, password, job, state, city, school };
 
-    await fetch("http://localhost:3500/register", {
+    await fetch(`${uri}/register`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify(newObj),

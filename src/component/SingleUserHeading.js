@@ -12,13 +12,13 @@ function SingleUserHeading({ singleUser, setSingleUser }) {
   const [errorMessage, setErrorMessage] = useState("");
   const handleFetchUser = useFetchSingleUser();
   const handleGetUser = useFetchUser();
-  const { user } = useContext(AllContext);
+  const { user, uri } = useContext(AllContext);
 
   const profilrUpload = (e) => {
     const formData = new FormData();
     formData.append("profile", e.target.files[0]);
 
-    fetch(`http://localhost:3500/profileimage/${params.id}`, {
+    fetch(`${uri}/profileimage/${params.id}`, {
       method: "POST",
       dataType: "jsonp",
       body: formData,

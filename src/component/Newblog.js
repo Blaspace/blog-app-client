@@ -14,6 +14,7 @@ function Newblog() {
   const [newblog, setNewBlog] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const { uri } = useContext(AllContext);
 
   const typing = (e) => {
     inputref.current.style.height = "100px";
@@ -44,7 +45,7 @@ function Newblog() {
       formData.append("username", user.name);
       formData.append("userid", user._id);
     }
-    fetch("http://localhost:3500/newblog", {
+    fetch(`${uri}/newblog`, {
       method: "POST",
       dataType: "jsonp",
       body: formData,

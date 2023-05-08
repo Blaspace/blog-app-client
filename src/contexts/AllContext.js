@@ -42,8 +42,10 @@ export function ContextProvider({ children }) {
       .then((data) => setBlog(data));
   }, []);
 
+  const uri = "https://blog-app-ux9e.onrender.com";
+
   return (
-    <AllContext.Provider value={{ blog, setBlog, user, users, setUser }}>
+    <AllContext.Provider value={{ blog, setBlog, user, users, setUser, uri }}>
       {children}
     </AllContext.Provider>
   );

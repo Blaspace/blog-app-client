@@ -1,20 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import AllContext from "../contexts/AllContext";
-import verify from "../hooks/verify";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser } = useContext(AllContext);
+  const { setUser, uri } = useContext(AllContext);
   const navigate = useNavigate();
-
-  const handleVerify = verify();
 
   useEffect(() => {
     const accesstoken = localStorage.getItem("jwt");
-    fetch(`http://localhost:3500/verify`, {
+    fetch(`${uri}/verify`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({ accesstoken }),
@@ -28,7 +25,7 @@ function Login() {
   }, []);
 
   const handleSubmit = () => {
-    fetch(`http://localhost:3500/login`, {
+    fetch(`${uri}/login`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -45,7 +42,7 @@ function Login() {
       .then((data) => {
         localStorage.setItem("jwt", data.accesstoken);
         navigate("/blog");
-        fetch("http://localhost:3500/get", {
+        fetch(`${uri}/get`, {
           method: "POST",
           headers: { "content-Type": "application/json" },
           body: JSON.stringify({ accesstoken: data.accesstoken }),

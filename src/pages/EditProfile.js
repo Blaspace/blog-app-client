@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import AllContext from "../contexts/AllContext";
 
 function EditProfile() {
   const navigate = useNavigate();
+  const { uri } = useContext(AllContext);
   const [user, setUser] = useState();
   const params = useParams();
   const bioRef = useRef();
@@ -17,7 +19,7 @@ function EditProfile() {
   const [school, setSchool] = useState();
 
   useEffect(() => {
-    fetch(`http://localhost:3500/singleuser/${params.id}`, {
+    fetch(`${uri}/singleuser/${params.id}`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
     })
@@ -42,7 +44,7 @@ function EditProfile() {
       school,
     };
 
-    fetch(`http://localhost:3500/editprofile/${params.id}`, {
+    fetch(`${uri}/editprofile/${params.id}`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify(obj),

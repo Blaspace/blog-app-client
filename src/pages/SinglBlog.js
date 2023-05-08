@@ -3,10 +3,9 @@ import { useNavigate, useParams } from "react-router";
 import prof from "../utils/profile.jpg";
 import AllContext from "../contexts/AllContext";
 import useFetchBlog from "../hooks/useFetchBlog";
-import Uri from "../component/Uri";
 
 function SinglBlog() {
-  const { user, users } = useContext(AllContext);
+  const { user, users, uri } = useContext(AllContext);
   const params = useParams();
   const [singleBlog, setSinglBlog] = useState({});
   const [errorMesage, setErrorMessage] = useState("");
@@ -17,7 +16,7 @@ function SinglBlog() {
   const editRef = useRef();
   const [bloger, setBloger] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:3500/singleblog/${params.id}`, {
+    fetch(`${uri}/singleblog/${params.id}`, {
       method: "POST",
     })
       .then((res) => res.json())
@@ -29,7 +28,7 @@ function SinglBlog() {
     editRef.current.value = singleBlog.blog;
   };
   const handleDelete = () => {
-    fetch(`http://localhost:3500/deleteblog/${params.id}`, {
+    fetch(`${uri}/deleteblog/${params.id}`, {
       method: "POST",
     })
       .then(() => {
@@ -39,7 +38,7 @@ function SinglBlog() {
       .catch((err) => console.log(err));
   };
   const handleUpdate = () => {
-    fetch(`http://localhost:3500/editblog/${params.id}`, {
+    fetch(`${uri}/editblog/${params.id}`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({ blog: text }),

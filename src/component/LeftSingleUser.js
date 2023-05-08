@@ -5,12 +5,12 @@ import useLogout from "../hooks/useLogout";
 
 function LeftSingleUser({ singleUser }) {
   const handleLogOut = useLogout();
-  const { user } = useContext(AllContext);
+  const { user, uri } = useContext(AllContext);
   const navigate = useNavigate();
 
   const handleDeleteAccount = () => {
     const accesstoken = localStorage.getItem("jwt");
-    fetch("http://localhost:3500/deleteuser", {
+    fetch(`${uri}/deleteuser`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify(accesstoken),

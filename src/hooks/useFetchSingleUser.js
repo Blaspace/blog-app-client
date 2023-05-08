@@ -1,6 +1,10 @@
+import { useContext } from "react";
+import AllContext from "../contexts/AllContext";
+
 function useFetchSingleUser() {
+  const { uri } = useContext(AllContext);
   const handleFetchUser = (userId, db) => {
-    fetch(`http://localhost:3500/singleuser/${userId}`, {
+    fetch(`${uri}/singleuser/${userId}`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
     })
