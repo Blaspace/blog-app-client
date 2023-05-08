@@ -10,9 +10,11 @@ export function ContextProvider({ children }) {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
+  const uri = "https://blog-app-ux9e.onrender.com";
+
   useEffect(() => {
     const accesstoken = localStorage.getItem("jwt");
-    fetch("http://localhost:3500/get", {
+    fetch(`${uri}/get`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({ accesstoken }),
@@ -21,11 +23,11 @@ export function ContextProvider({ children }) {
       .then((data) => {
         setUser(data);
       })
-      .catch((err) => navigate("../"));
+      .catch((err) => console.log(err));
   }, [navigate]);
 
   useEffect(() => {
-    fetch("http://localhost:3500/users", {
+    fetch(`${uri}/users`, {
       method: "POST",
     })
       .then((res) => res.json())
@@ -35,14 +37,12 @@ export function ContextProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3500/blog", {
+    fetch(`${uri}/blog`, {
       method: "POST",
     })
       .then((res) => res.json())
       .then((data) => setBlog(data));
   }, []);
-
-  const uri = "https://blog-app-ux9e.onrender.com";
 
   return (
     <AllContext.Provider value={{ blog, setBlog, user, users, setUser, uri }}>

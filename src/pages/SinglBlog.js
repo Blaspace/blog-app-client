@@ -21,12 +21,14 @@ function SinglBlog() {
     })
       .then((res) => res.json())
       .then((data) => setSinglBlog(data))
-      .catch((err) => console.log(err));
-  }, [params.id, users]);
+      .catch((err) => navigate("../../"));
+  }, []);
+
   const handleEdit = () => {
     formRef.current.style.display = "block";
     editRef.current.value = singleBlog.blog;
   };
+
   const handleDelete = () => {
     fetch(`${uri}/deleteblog/${params.id}`, {
       method: "POST",
@@ -53,7 +55,6 @@ function SinglBlog() {
       })
       .catch((err) => setErrorMessage("something went wrong"));
   };
-  //console.log(Uri);
   //getting the bloger of the blog
   useEffect(() => {
     if (singleBlog) {

@@ -11,17 +11,21 @@ function Login() {
 
   useEffect(() => {
     const accesstoken = localStorage.getItem("jwt");
-    fetch(`${uri}/verify`, {
-      method: "POST",
-      headers: { "content-Type": "application/json" },
-      body: JSON.stringify({ accesstoken }),
-    }).then((res) => {
-      if (res.ok) {
-        navigate("./blog");
-      } else {
-        navigate("./");
-      }
-    });
+    if (accesstoken) {
+      fetch(`${uri}/verify`, {
+        method: "POST",
+        headers: { "content-Type": "application/json" },
+        body: JSON.stringify({ accesstoken }),
+      }).then((res) => {
+        if (res.ok) {
+          navigate("./blog");
+        } else {
+          return;
+        }
+      });
+    } else {
+      return;
+    }
   }, []);
 
   const handleSubmit = () => {
@@ -49,7 +53,9 @@ function Login() {
         })
           .then((res) => res.json())
           .then((data) => setUser(data))
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            throw new Error("could not get user");
+          });
       })
       .catch((err) => {
         setError(err.message);
