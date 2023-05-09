@@ -75,9 +75,6 @@
   display: flex;
   cursor: pointer;
 }
-.nav-profile img {
-  margin-right: 5px;
-}
 .nav-profile h4 {
   font-weight: bolder;
   margin-top: 7px;
