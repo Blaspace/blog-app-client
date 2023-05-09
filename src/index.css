@@ -54,7 +54,7 @@
   position: fixed;
   background-color: whitesmoke;
   justify-content: space-between;
-  height: 200px;
+  padding: 20px;
   align-items: center;
   width: 100%;
   z-index: 5;
