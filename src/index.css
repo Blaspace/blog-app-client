@@ -60,9 +60,9 @@
 }
 .nav img {
   height: 35px;
-  width: 35px;
+  width: 20%;
   border-radius: 50%;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 .nav h1 {
   font-size: larger;
@@ -76,7 +76,7 @@
   cursor: pointer;
 }
 .nav-profile img {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .nav-profile h4 {
   font-weight: bolder;
