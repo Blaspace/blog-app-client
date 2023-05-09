@@ -54,7 +54,8 @@
   position: fixed;
   background-color: whitesmoke;
   justify-content: space-between;
-  padding: 8px;
+  height: 30px;
+  align-items: center;
   width: 100%;
   z-index: 5;
 }
