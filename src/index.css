@@ -54,9 +54,9 @@
   position: fixed;
   background-color: whitesmoke;
   justify-content: space-between;
-  padding: 20px;
+  padding: 15px;
   align-items: center;
-  width: 100%;
+  width: 100vw;
   z-index: 5;
 }
 .nav img {
