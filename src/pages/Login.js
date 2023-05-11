@@ -11,6 +11,7 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     const accesstoken = localStorage.getItem("jwt");
     if (accesstoken) {
       fetch(`${uri}/verify`, {
@@ -19,9 +20,10 @@ function Login() {
         body: JSON.stringify({ accesstoken }),
       }).then((res) => {
         if (res.ok) {
+          setLoading(false);
           navigate("./blog");
         } else {
-          return;
+          setLoading(false);
         }
       });
     } else {
