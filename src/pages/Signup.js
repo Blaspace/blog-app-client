@@ -15,19 +15,20 @@ function Signup() {
 
   useEffect(() => {
     const accesstoken = localStorage.getItem("jwt");
-
-    fetch(`${uri}/verify`, {
-      method: "POST",
-      headers: { "content-Type": "application/json" },
-      body: JSON.stringify({ accesstoken }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return navigate("/blog");
-        }
+    if (accesstoken) {
+      fetch(`${uri}/verify`, {
+        method: "POST",
+        headers: { "content-Type": "application/json" },
+        body: JSON.stringify({ accesstoken }),
       })
-      .catch((err) => console.log(err));
-  }, [navigate]);
+        .then((res) => {
+          if (res.ok) {
+            return navigate("../blog");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []);
 
   const handleSignup = async () => {
     const newObj = { username, email, password, job, state, city, school };

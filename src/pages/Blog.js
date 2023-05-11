@@ -9,7 +9,7 @@ function Profile() {
   const handleVerify = verify();
   useEffect(() => {
     handleVerify();
-  }, [handleVerify]);
+  }, []);
 
   return (
     <div className="blog">

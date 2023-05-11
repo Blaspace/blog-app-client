@@ -13,7 +13,7 @@ function Friends() {
       const otherUsers = users.filter((value) => value._id !== user._id);
       setUsers(otherUsers);
     }
-  }, [users, user._id]);
+  }, []);
 
   const handleProfile = (e) => {
     navigate(`../profile/${e}`);
