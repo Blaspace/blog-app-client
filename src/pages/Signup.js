@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import AllContext from "../contexts/AllContext";
+import Loading from "../component/Loading";
+import Popup from "../component/Popup";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -11,7 +13,8 @@ function Signup() {
   const [state, setState] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { uri } = useContext(AllContext);
+  const { uri, loading, setLoading, errorMessage, setErrorMessage } =
+    useContext(AllContext);
 
   useEffect(() => {
     const accesstoken = localStorage.getItem("jwt");
@@ -31,6 +34,7 @@ function Signup() {
   }, []);
 
   const handleSignup = async () => {
+    setLoading(true);
     const newObj = { username, email, password, job, state, city, school };
 
     await fetch(`${uri}/register`, {
@@ -40,12 +44,17 @@ function Signup() {
     })
       .then((res) => {
         if (res.ok) {
+          setLoading(false);
           navigate("../");
-        } else {
-          console.log("error");
+        } else if (res.status === 409) {
+          setLoading(false);
+          throw new Error("this email has already been used");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoading(false);
+        setErrorMessage(err.message);
+      });
   };
 
   return (
@@ -125,6 +134,8 @@ function Signup() {
         </div>
         <br />
       </div>
+      {loading && <Loading />}
+      {errorMessage && <Popup />}
     </div>
   );
 }

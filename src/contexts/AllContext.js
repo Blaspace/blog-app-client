@@ -7,6 +7,8 @@ export function ContextProvider({ children }) {
   const [blog, setBlog] = useState([]);
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
+  const [errorMesage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const uri = "https://blog-app-ux9e.onrender.com";
 
@@ -43,7 +45,20 @@ export function ContextProvider({ children }) {
   }, []);
 
   return (
-    <AllContext.Provider value={{ blog, setBlog, user, users, setUser, uri }}>
+    <AllContext.Provider
+      value={{
+        blog,
+        setBlog,
+        user,
+        users,
+        setUser,
+        uri,
+        loading,
+        setLoading,
+        errorMesage,
+        setErrorMessage,
+      }}
+    >
       {children}
     </AllContext.Provider>
   );

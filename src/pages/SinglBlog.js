@@ -3,12 +3,21 @@ import { useNavigate, useParams } from "react-router";
 import prof from "../utils/profile.jpg";
 import AllContext from "../contexts/AllContext";
 import useFetchBlog from "../hooks/useFetchBlog";
+import Loading from "../component/Loading";
+import Popup from "../component/Popup";
 
 function SinglBlog() {
-  const { user, users, uri } = useContext(AllContext);
+  const {
+    user,
+    users,
+    uri,
+    loading,
+    setLoading,
+    errorMesage,
+    setErrorMessage,
+  } = useContext(AllContext);
   const params = useParams();
   const [singleBlog, setSinglBlog] = useState({});
-  const [errorMesage, setErrorMessage] = useState("");
   const [text, setText] = useState();
   const navigate = useNavigate();
   const getBlog = useFetchBlog();
@@ -16,12 +25,19 @@ function SinglBlog() {
   const editRef = useRef();
   const [bloger, setBloger] = useState([]);
   useEffect(() => {
+    setLoading(true);
     fetch(`${uri}/singleblog/${params.id}`, {
       method: "POST",
     })
       .then((res) => res.json())
-      .then((data) => setSinglBlog(data))
-      .catch((err) => navigate("../../"));
+      .then((data) => {
+        setSinglBlog(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        navigate("../../");
+      });
   }, []);
 
   const handleEdit = () => {
@@ -30,16 +46,19 @@ function SinglBlog() {
   };
 
   const handleDelete = () => {
+    setLoading(true);
     fetch(`${uri}/deleteblog/${params.id}`, {
       method: "POST",
     })
       .then(() => {
         getBlog();
+        setLoading(false);
         navigate("../../blog");
       })
       .catch((err) => console.log(err));
   };
   const handleUpdate = () => {
+    setLoading(true);
     fetch(`${uri}/editblog/${params.id}`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
@@ -48,12 +67,16 @@ function SinglBlog() {
       .then((res) => {
         if (res.ok) {
           getBlog();
+          setLoading(false);
           navigate("../../blog");
         } else {
           setErrorMessage("something went wrong");
         }
       })
-      .catch((err) => setErrorMessage("something went wrong"));
+      .catch((err) => {
+        setLoading(false);
+        setErrorMessage("something went wrong");
+      });
   };
   //getting the bloger of the blog
   useEffect(() => {
@@ -112,7 +135,6 @@ function SinglBlog() {
           ref={formRef}
           onSubmit={(e) => e.preventDefault()}
         >
-          <h5>{errorMesage.length !== 0 && errorMesage}</h5>
           <textarea
             type="text"
             onChange={(e) => setText(e.target.value)}
@@ -133,6 +155,8 @@ function SinglBlog() {
           )}
         </div>
       </div>
+      {loading && <Loading />}
+      {errorMesage && <Popup />}
     </div>
   );
 }

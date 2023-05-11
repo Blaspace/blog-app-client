@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
+import AllContext from "../contexts/AllContext";
 
-function Popup({ errorMessage, setErrorMessage }) {
+function Popup({ errorMessage }) {
+  const { setErrorMessage } = useContext(AllContext);
   return (
     <div className="popup-con">
       <div className="popup">
         <h4>{errorMessage}</h4>
         <br />
-        <button onClick={() => setErrorMessage("")}>Okay</button>
+        <button onClick={() => setErrorMessage(null)}>Okay</button>
       </div>
     </div>
   );

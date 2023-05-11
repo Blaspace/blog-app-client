@@ -21,6 +21,7 @@ function Friends() {
   return (
     <div className="friends-con">
       <br />
+      <br />
       <ul className="friends">
         <h1 style={{ textAlign: "center" }}>
           <i>friends on this app</i>

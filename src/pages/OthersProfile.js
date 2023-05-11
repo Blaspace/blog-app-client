@@ -6,22 +6,30 @@ import LeftSingleUser from "../component/LeftSingleUser";
 import SingleUserHeading from "../component/SingleUserHeading";
 import { useParams } from "react-router";
 import AllContext from "../contexts/AllContext";
+import Loading from "../component/Loading";
+import Popup from "../component/Popup";
 
 function Home() {
   const params = useParams();
   const [singleUser, setSingleUser] = useState({});
-  const { uri } = useContext(AllContext);
+  const { uri, setLoading, loading, errorMessage, setErrorMessage } =
+    useContext(AllContext);
   useEffect(() => {
+    setLoading(true);
     fetch(`${uri}/singleuser/${params.id}`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
     })
       .then((res) => res.json())
       .then((data) => {
+        setLoading(false);
         setSingleUser(data);
         //console.log(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoading(false);
+        setErrorMessage("something went wrong!");
+      });
   }, [params]);
 
   return (
@@ -44,6 +52,8 @@ function Home() {
           <AllBlog />
         </div>
       </section>
+      {loading && <Loading />}
+      {errorMessage && <Popup />}
     </div>
   );
 }

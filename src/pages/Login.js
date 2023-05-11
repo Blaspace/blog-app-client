@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import AllContext from "../contexts/AllContext";
+import Loading from "../component/Loading";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser, uri } = useContext(AllContext);
+  const { setUser, uri, loading, setLoading } = useContext(AllContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +30,7 @@ function Login() {
   }, []);
 
   const handleSubmit = () => {
+    setLoading(true);
     fetch(`${uri}/login`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
@@ -56,9 +58,11 @@ function Login() {
           .catch((err) => {
             throw new Error("could not get user");
           });
+        setLoading(false);
       })
       .catch((err) => {
         setError(err.message);
+        setLoading(false);
       });
   };
 
@@ -97,6 +101,7 @@ function Login() {
         </div>
         <br />
       </div>
+      {loading && <Loading />}
     </div>
   );
 }
