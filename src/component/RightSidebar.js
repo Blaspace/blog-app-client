@@ -6,8 +6,7 @@ import prof from "../utils/profile.jpg";
 function RightSidebar() {
   const [Users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const { users } = useContext(AllContext);
-  const { user } = useContext(AllContext);
+  const { users, user } = useContext(AllContext);
 
   useEffect(() => {
     if (users.length) {

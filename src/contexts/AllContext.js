@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import React from "react";
-import { useNavigate } from "react-router";
 
 const AllContext = createContext();
 
@@ -8,7 +7,6 @@ export function ContextProvider({ children }) {
   const [blog, setBlog] = useState([]);
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
 
   const uri = "https://blog-app-ux9e.onrender.com";
 
@@ -24,7 +22,7 @@ export function ContextProvider({ children }) {
         setUser(data);
       })
       .catch((err) => console.log(err));
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     fetch(`${uri}/users`, {
