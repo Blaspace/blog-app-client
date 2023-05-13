@@ -7,10 +7,10 @@ export function ContextProvider({ children }) {
   const [blog, setBlog] = useState([]);
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
-  const [errorMesage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const uri = "https://blog-app-ux9e.onrender.com";
+  //const uri = "http://localhost:3500";
 
   useEffect(() => {
     const accesstoken = localStorage.getItem("jwt");
@@ -22,6 +22,7 @@ export function ContextProvider({ children }) {
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -37,11 +38,15 @@ export function ContextProvider({ children }) {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${uri}/blog`, {
       method: "POST",
     })
       .then((res) => res.json())
-      .then((data) => setBlog(data));
+      .then((data) => {
+        setBlog(data);
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -55,8 +60,6 @@ export function ContextProvider({ children }) {
         uri,
         loading,
         setLoading,
-        errorMesage,
-        setErrorMessage,
       }}
     >
       {children}

@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import AllContext from "../contexts/AllContext";
 import prof from "../utils/profile.jpg";
 import { useNavigate } from "react-router";
+import Loading from "./Loading";
 
 function AllBlog() {
-  const { blog, users } = useContext(AllContext);
+  const { users, blog, loading } = useContext(AllContext);
   const navigate = useNavigate();
 
   return (
     <>
-      {blog.length ? (
+      {blog.length &&
+        !loading &&
         blog.map((value) => {
           //getting the bloger for each of the blog
 
@@ -23,8 +25,7 @@ function AllBlog() {
               >
                 {/*putting the if the bloger here if any image*/}
 
-                {bloger[0].image &&
-                Object.keys(bloger[0].image).length !== 0 ? (
+                {bloger[0].image && Object.keys(bloger[0].image).length ? (
                   <img
                     src={`data:image;base64,${btoa(
                       String.fromCharCode(
@@ -47,10 +48,10 @@ function AllBlog() {
                 className="allblogs"
                 onClick={() => navigate(`/singleblog/${value._id}`)}
               >
-                <h4>
+                <h5>
                   {value.blog && value.blog.slice(0, 200)}
                   {value.blog && value.blog.length > 200 && "..."}
-                </h4>
+                </h5>
                 <div className="blog-image">
                   {value.blogimage &&
                   Object.keys(value.blogimage).length !== 0 ? (
@@ -70,10 +71,7 @@ function AllBlog() {
               </div>
             </div>
           );
-        })
-      ) : (
-        <h3 className="loading">loading...</h3>
-      )}
+        })}
     </>
   );
 }

@@ -9,7 +9,7 @@ import setting from "../utils/setting.png";
 import event from "../utils/event.png";
 import { useNavigate } from "react-router";
 
-function LeftSideBar() {
+function LeftSideBar({ singlUser }) {
   const { user } = useContext(AllContext);
   const handleLogout = useLogout();
   const navigate = useNavigate();

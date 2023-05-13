@@ -9,10 +9,10 @@ import Popup from "./Popup";
 
 function SingleUserHeading({ singleUser, setSingleUser }) {
   const params = useParams();
-  const [errorMessage, setErrorMessage] = useState("");
   const handleFetchUser = useFetchSingleUser();
   const handleGetUser = useFetchUser();
   const { user, uri } = useContext(AllContext);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const profilrUpload = (e) => {
     const formData = new FormData();
@@ -37,9 +37,7 @@ function SingleUserHeading({ singleUser, setSingleUser }) {
   const obj = singleUser.image;
   return (
     <>
-      {errorMessage.length !== 0 && (
-        <Popup setErrorMessage={setErrorMessage} errorMessage={errorMessage} />
-      )}
+      <Popup errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
       <header className="profile-header">
         <div className="profile-img">
           {singleUser.image && Object.keys(obj).length !== 0 ? (

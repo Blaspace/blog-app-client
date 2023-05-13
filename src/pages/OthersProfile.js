@@ -12,8 +12,9 @@ import Popup from "../component/Popup";
 function Home() {
   const params = useParams();
   const [singleUser, setSingleUser] = useState({});
-  const { uri, setLoading, loading, errorMessage, setErrorMessage } =
-    useContext(AllContext);
+  const [errorMesage, setErrorMessage] = useState(null);
+  const { uri, setLoading, loading, blog } = useContext(AllContext);
+
   useEffect(() => {
     setLoading(true);
     fetch(`${uri}/singleuser/${params.id}`, {
@@ -33,28 +34,32 @@ function Home() {
   }, [params]);
 
   return (
-    <div className="profile">
-      <SingleUserHeading
-        singleUser={singleUser}
-        setSingleUser={setSingleUser}
-      />
-      <ProfileUI />
-      <section className="profile-body">
-        <div className="left-profile-con">
-          */
-          <LeftSingleUser singleUser={singleUser} />
-        </div>
+    <>
+      {blog.length && !loading ? (
+        <div className="profile">
+          <SingleUserHeading
+            singleUser={singleUser}
+            setSingleUser={setSingleUser}
+          />
+          <ProfileUI />
+          <section className="profile-body">
+            <div className="left-profile-con">
+              <LeftSingleUser singleUser={singleUser} />
+            </div>
 
-        {/*main area*/}
+            {/*main area*/}
 
-        <div className="profile-main">
-          <Newblog />
-          <AllBlog />
+            <div className="profile-main">
+              <Newblog />
+              <AllBlog />
+            </div>
+          </section>
+          <Popup errorMesage={errorMesage} setErrorMessage={setErrorMessage} />
         </div>
-      </section>
-      {loading && <Loading />}
-      {errorMessage && <Popup />}
-    </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 }
 

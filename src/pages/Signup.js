@@ -13,8 +13,8 @@ function Signup() {
   const [state, setState] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { uri, loading, setLoading, errorMessage, setErrorMessage } =
-    useContext(AllContext);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const { uri, loading, setLoading } = useContext(AllContext);
 
   useEffect(() => {
     const accesstoken = localStorage.getItem("jwt");
@@ -135,7 +135,7 @@ function Signup() {
         <br />
       </div>
       {loading && <Loading />}
-      {errorMessage && <Popup />}
+      <Popup errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
     </div>
   );
 }

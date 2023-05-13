@@ -237,20 +237,26 @@
 .main {
   display: flex;
   flex-direction: column-reverse;
-  justify-content: start;
-  align-items: end;
+  justify-content: flex-start;
+  align-items: flex-end;
   width: 100%;
 }
 .allblogs {
   background-color: white;
-  padding: 20px;
+  padding: 0px;
   display: flex;
   flex-direction: column;
   width: 100%;
   color: rgb(58, 58, 58);
 }
+.allblogs h5 {
+  padding: 20px;
+  font-size: larger;
+  font-weight: lighter;
+}
 .allblogs p {
   margin-top: 10px;
+  padding: 10px;
   font-size: 10px;
   color: gray;
 }
@@ -619,7 +625,7 @@
 
 /*media query*/
 
-@media (min-width: 900px) {
+@media (min-width: 780px) {
   .EditProfile form {
     display: flex;
     flex-direction: column;
