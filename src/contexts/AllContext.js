@@ -46,7 +46,8 @@ export function ContextProvider({ children }) {
       .then((data) => {
         setBlog(data);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   return (
