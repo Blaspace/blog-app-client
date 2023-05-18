@@ -13,10 +13,10 @@ function LeftSingleUser({ singleUser }) {
     fetch(`${uri}/deleteuser`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
-      body: JSON.stringify(accesstoken),
+      body: JSON.stringify({ _id: singleUser._id }),
     }).then(() => {
       localStorage.clear("jwt");
-      navigate("../../login");
+      navigate("../../");
     });
   };
   return (

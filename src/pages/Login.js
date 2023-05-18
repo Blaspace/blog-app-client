@@ -26,8 +26,8 @@ function Login() {
           setLoading(false);
         }
       });
-    } else {
-      return;
+    } else if (accesstoken === null) {
+      setLoading(false);
     }
   }, []);
 

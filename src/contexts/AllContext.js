@@ -9,8 +9,8 @@ export function ContextProvider({ children }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const uri = "https://blog-app-ux9e.onrender.com";
-  //const uri = "http://localhost:3500";
+  //const uri = "https://blog-app-ux9e.onrender.com";
+  const uri = "http://localhost:3500";
 
   useEffect(() => {
     const accesstoken = localStorage.getItem("jwt");
