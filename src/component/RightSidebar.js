@@ -3,14 +3,14 @@ import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
 import prof from "../utils/profile.jpg";
 
-function RightSidebar() {
+function RightSidebar({ users }) {
   const [Users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const { users, user } = useContext(AllContext);
+  const { user } = useContext(AllContext);
 
   useEffect(() => {
     if (users.length) {
-      const otherUsers = users.filter((value) => value._id !== user._id);
+      const otherUsers = users?.filter((value) => value?._id !== user?._id);
       setUsers(otherUsers);
     }
   }, [users]);
@@ -21,7 +21,7 @@ function RightSidebar() {
 
   return (
     <ul className="right-sidebar">
-      {Users.length ? (
+      {Users?.length ? (
         Users.slice(0, 6).map((value) => {
           return (
             <li
@@ -30,31 +30,31 @@ function RightSidebar() {
                 handleProfile(value._id);
               }}
             >
-              {value.image !== undefined ? (
+              {value?.image !== undefined ? (
                 <img
                   src={`data:image;base64,${btoa(
                     String.fromCharCode(
-                      ...new Uint8Array(value.image.data.data)
+                      ...new Uint8Array(value?.image?.data?.data)
                     )
                   )}`}
                   alt="profile"
-                  onClick={() => navigate(`../profile/${user._id}`)}
+                  onClick={() => navigate(`../profile/${user?._id}`)}
                 />
               ) : (
                 <img
                   src={prof}
                   alt="profile"
-                  onClick={() => navigate(`../profile/${user._id}`)}
+                  onClick={() => navigate(`../profile/${user?._id}`)}
                 />
               )}
-              <span>{value.username}</span>
+              <span>{value?.username}</span>
             </li>
           );
         })
       ) : (
         <h4>no user</h4>
       )}
-      {Users.length > 6 && <p onClick={() => navigate("../friends")}>...</p>}
+      {Users?.length > 6 && <p onClick={() => navigate("../friends")}>...</p>}
     </ul>
   );
 }

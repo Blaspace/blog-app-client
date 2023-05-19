@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { NavLink } from "react-router-dom";
 import AllContext from "../contexts/AllContext";
 import Loading from "../component/Loading";
 
@@ -7,34 +7,13 @@ function Login() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser, uri, loading, setLoading } = useContext(AllContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    setLoading(true);
-    const accesstoken = localStorage.getItem("jwt");
-    if (accesstoken) {
-      fetch(`${uri}/verify`, {
-        method: "POST",
-        headers: { "content-Type": "application/json" },
-        body: JSON.stringify({ accesstoken }),
-      }).then((res) => {
-        if (res.ok) {
-          setLoading(false);
-          navigate("./blog");
-        } else {
-          setLoading(false);
-        }
-      });
-    } else {
-      return;
-    }
-  }, []);
+  const { setAccesstoken, uri, loading, setLoading } = useContext(AllContext);
 
   const handleSubmit = () => {
     setLoading(true);
     fetch(`${uri}/login`, {
       method: "POST",
+      credentials: "include",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     })
@@ -47,25 +26,11 @@ function Login() {
           throw new Error("Email and password required");
         }
       })
-      .then((data) => {
-        localStorage.setItem("jwt", data.accesstoken);
-        navigate("/blog");
-        fetch(`${uri}/get`, {
-          method: "POST",
-          headers: { "content-Type": "application/json" },
-          body: JSON.stringify({ accesstoken: data.accesstoken }),
-        })
-          .then((res) => res.json())
-          .then((data) => setUser(data))
-          .catch((err) => {
-            throw new Error("could not get user");
-          });
-        setLoading(false);
-      })
+      .then((data) => setAccesstoken(data.accesstoken))
       .catch((err) => {
         setError(err.message);
-        setLoading(false);
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (

@@ -84,7 +84,7 @@
 .nav h1 {
   font-size: larger;
   font-weight: bolder;
-  display: none;
+  display: block;
 }
 .nav h1 span {
   color: crimson;
@@ -244,8 +244,8 @@
 .main {
   display: flex;
   flex-direction: column-reverse;
-  justify-content: flex-start;
-  align-items: flex-end;
+  justify-content: flex-end;
+  align-items: center;
   width: 100%;
 }
 .allblogs {
@@ -513,7 +513,7 @@
 .profile-left {
   background-color: white;
   width: 100%;
-  padding: 10px;
+  padding: 20px;
   padding-top: 100px;
 }
 .profile-left section article {
@@ -671,6 +671,7 @@
     font-weight: bolder;
     margin-top: 7px;
     display: block;
+    padding-left: 10px;
   }
 
   /*login and logout*/
@@ -819,8 +820,5 @@
     width: 100%;
     height: 500px;
     margin-top: 10px;
-  }
-  .nav h1 {
-    display: block;
   }
 }

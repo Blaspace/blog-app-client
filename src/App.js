@@ -8,12 +8,17 @@ import OthersProfile from "./pages/OthersProfile";
 import SinglBlog from "./pages/SinglBlog";
 import Friends from "./pages/Friends";
 import EditProfile from "./pages/EditProfile";
+import Publicrout from "./component/Publicrout";
 
 function App() {
   return (
     <div>
       <Routes>
-        <Route index element={<Login />} />
+        <Route element={<Publicrout />}>
+          <Route index element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route>
+
         <Route path="/" element={<Rootrout />}>
           <Route path="/blog" element={<Blog />} />
           <Route path="/profile/:id" element={<OthersProfile />} />
@@ -21,7 +26,6 @@ function App() {
           <Route path="/friends" element={<Friends />} />
           <Route path="/editprofile/:id" element={<EditProfile />} />
         </Route>
-        <Route path="/signup" element={<Signup />} />
         <Route path="/*" element={<h1>404 page not found</h1>} />
       </Routes>
     </div>

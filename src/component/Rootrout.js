@@ -1,12 +1,20 @@
-import { Outlet } from "react-router-dom";
-import React from "react";
+import { Outlet, Navigate } from "react-router-dom";
+import React, { useContext } from "react";
 import Nav from "./Nav";
+import AllContext from "../contexts/AllContext";
 
 function Rootrout() {
+  const { accesstoken } = useContext(AllContext);
   return (
     <div>
-      <Nav />
-      <Outlet />
+      {accesstoken ? (
+        <>
+          <Nav />
+          <Outlet />
+        </>
+      ) : (
+        <Navigate to="/" replace />
+      )}
     </div>
   );
 }

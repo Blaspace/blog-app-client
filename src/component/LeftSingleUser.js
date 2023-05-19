@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
-import useLogout from "../hooks/useLogout";
 
 function LeftSingleUser({ singleUser }) {
-  const handleLogOut = useLogout();
-  const { user, uri } = useContext(AllContext);
+  const { user, uri, logOut } = useContext(AllContext);
   const navigate = useNavigate();
 
   const handleDeleteAccount = () => {
@@ -26,7 +24,7 @@ function LeftSingleUser({ singleUser }) {
           <section>
             <h2>Intro</h2>
             <article>
-              {singleUser && singleUser.bio !== undefined ? (
+              {singleUser && singleUser?.bio !== undefined ? (
                 singleUser.bio
               ) : (
                 <>
@@ -39,50 +37,50 @@ function LeftSingleUser({ singleUser }) {
           <div className="profile-info">
             <ul>
               <li>
-                {singleUser && singleUser.school === undefined ? (
+                {singleUser && singleUser?.school === undefined ? (
                   "add an institution!"
                 ) : (
                   <p>
-                    studied at :<b> {singleUser.school} </b>
+                    studied at :<b> {singleUser?.school} </b>
                   </p>
                 )}
               </li>
               <li>
-                {singleUser && singleUser.job === undefined ? (
+                {singleUser && singleUser?.job === undefined ? (
                   "add your job!"
                 ) : (
                   <p>
-                    works at : <b> {singleUser.job}</b>{" "}
+                    works at : <b> {singleUser?.job}</b>{" "}
                   </p>
                 )}
               </li>
               <li>
-                {singleUser && singleUser.city === undefined ? (
+                {singleUser && singleUser?.city === undefined ? (
                   "add your city!"
                 ) : (
                   <p>
-                    live at :<b> {singleUser.city} </b>
+                    live at :<b> {singleUser?.city} </b>
                   </p>
                 )}
               </li>
               <li>
-                {singleUser && singleUser.state === undefined ? (
+                {singleUser && singleUser?.state === undefined ? (
                   "add your state!"
                 ) : (
                   <p>
-                    from : <b>{singleUser.state} </b>
+                    from : <b>{singleUser?.state} </b>
                   </p>
                 )}
               </li>
             </ul>
-            {singleUser && user._id === singleUser._id && (
+            {singleUser && user?._id === singleUser._id && (
               <>
                 <button
-                  onClick={() => navigate(`../editprofile/${singleUser._id}`)}
+                  onClick={() => navigate(`../editprofile/${singleUser?._id}`)}
                 >
                   Edit Details
                 </button>
-                <button onClick={handleLogOut}>
+                <button onClick={logOut}>
                   <span>log out</span>
                 </button>
                 <button onClick={handleDeleteAccount}>

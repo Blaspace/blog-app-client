@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import AllContext from "../contexts/AllContext";
 import Loading from "../component/Loading";
@@ -15,23 +15,6 @@ function Signup() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
   const { uri, loading, setLoading } = useContext(AllContext);
-
-  useEffect(() => {
-    const accesstoken = localStorage.getItem("jwt");
-    if (accesstoken) {
-      fetch(`${uri}/verify`, {
-        method: "POST",
-        headers: { "content-Type": "application/json" },
-        body: JSON.stringify({ accesstoken }),
-      })
-        .then((res) => {
-          if (res.ok) {
-            return navigate("../blog");
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }, []);
 
   const handleSignup = async () => {
     setLoading(true);

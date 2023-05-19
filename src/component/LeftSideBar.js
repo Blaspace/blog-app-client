@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import AllContext from "../contexts/AllContext";
-import useLogout from "../hooks/useLogout";
 import prof from "../utils/profile.jpg";
 import flag from "../utils/flag.png";
 import friends from "../utils/friends.png";
@@ -9,9 +8,8 @@ import setting from "../utils/setting.png";
 import event from "../utils/event.png";
 import { useNavigate } from "react-router";
 
-function LeftSideBar({ singlUser }) {
-  const { user } = useContext(AllContext);
-  const handleLogout = useLogout();
+function LeftSideBar() {
+  const { user, logOut } = useContext(AllContext);
   const navigate = useNavigate();
 
   return (
@@ -21,10 +19,10 @@ function LeftSideBar({ singlUser }) {
           className="left-sidebar-header"
           onClick={() => navigate(`../profile/${user._id}`)}
         >
-          {user.image && Object.keys(user.image).length !== 0 ? (
+          {user?.image && Object.keys(user?.image).length !== 0 ? (
             <img
               src={`data:image;base64,${btoa(
-                String.fromCharCode(...new Uint8Array(user.image.data.data))
+                String.fromCharCode(...new Uint8Array(user?.image?.data?.data))
               )}`}
               alt="profile"
               onClick={() => navigate(`../profile/${user._id}`)}
@@ -32,8 +30,8 @@ function LeftSideBar({ singlUser }) {
           ) : (
             <img src={prof} alt="profile" />
           )}
-          <h4>{user.name}</h4>
-          <h3>{user.email}</h3>
+          <h4>{user?.name}</h4>
+          <h3>{user?.email}</h3>
         </div>
         <br />
         <ul className="left-list">
@@ -57,7 +55,7 @@ function LeftSideBar({ singlUser }) {
             <img src={setting} alt="" />
             Settings & Privacy
           </li>
-          <li onClick={handleLogout} className="logout">
+          <li onClick={logOut} className="logout">
             Logout
           </li>
         </ul>

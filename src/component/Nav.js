@@ -23,24 +23,24 @@ function Nav() {
       </div>
       <div
         className="nav-profile"
-        onClick={() => navigate(`../profile/${user._id}`)}
+        onClick={() => navigate(`../profile/${user?._id}`)}
       >
-        {user.image && Object.keys(user.image).length !== 0 ? (
+        {user?.image && Object.keys(user?.image).length !== 0 ? (
           <img
             src={`data:image;base64,${btoa(
-              String.fromCharCode(...new Uint8Array(user.image.data.data))
+              String.fromCharCode(...new Uint8Array(user?.image?.data?.data))
             )}`}
             alt="profile"
-            onClick={() => navigate(`../profile/${user._id}`)}
+            onClick={() => navigate(`../profile/${user?._id}`)}
           />
         ) : (
           <img
             src={prof}
             alt="profile"
-            onClick={() => navigate(`../profile/${user._id}`)}
+            onClick={() => navigate(`../profile/${user?._id}`)}
           />
         )}
-        <h4>{user.name}</h4>
+        <h4>{user?.name}</h4>
       </div>
     </div>
   );
