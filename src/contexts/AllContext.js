@@ -9,8 +9,8 @@ export function ContextProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [accesstoken, setAccesstoken] = useState("");
 
-  //const uri = "https://blog-app-ux9e.onrender.com";
-  const uri = "http://localhost:3500";
+  const uri = "https://blog-app-ux9e.onrender.com";
+  //const uri = "http://localhost:3500";
 
   const logOut = () => {
     fetch(`${uri}/logout`, {
