@@ -4,16 +4,29 @@ import AllContext from "../contexts/AllContext";
 import prof from "../utils/profile.jpg";
 
 function Friends() {
-  const [Users, setUsers] = useState([]);
+  const [newUsers, setNewUsers] = useState([]);
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const { users, user } = useContext(AllContext);
+  const { user, uri, accesstoken } = useContext(AllContext);
+
+  useEffect(() => {
+    fetch(`${uri}/users`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accesstoken }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+      });
+  }, []);
 
   useEffect(() => {
     if (users.length) {
       const otherUsers = users.filter((value) => value._id !== user._id);
-      setUsers(otherUsers);
+      setNewUsers(otherUsers);
     }
-  }, []);
+  }, [users]);
 
   const handleProfile = (e) => {
     navigate(`../profile/${e}`);
@@ -26,8 +39,8 @@ function Friends() {
         <h1 style={{ textAlign: "center" }}>
           <i>friends on this app</i>
         </h1>
-        {Users.length ? (
-          Users.map((value) => {
+        {newUsers.length ? (
+          newUsers.map((value) => {
             return (
               <li
                 key={value._id}

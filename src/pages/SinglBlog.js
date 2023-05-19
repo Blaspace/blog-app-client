@@ -2,25 +2,24 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import prof from "../utils/profile.jpg";
 import AllContext from "../contexts/AllContext";
-import useFetchBlog from "../hooks/useFetchBlog";
 import Loading from "../component/Loading";
 import Popup from "../component/Popup";
 
 function SinglBlog() {
   const {
     user,
-    users,
     uri,
     loading,
     setLoading,
     errorMesage,
     setErrorMessage,
+    accesstoken,
   } = useContext(AllContext);
   const params = useParams();
+  const [users, setUsers] = useState([]);
   const [singleBlog, setSinglBlog] = useState({});
   const [text, setText] = useState();
   const navigate = useNavigate();
-  const getBlog = useFetchBlog();
   const formRef = useRef();
   const editRef = useRef();
   const [bloger, setBloger] = useState([]);
@@ -28,6 +27,8 @@ function SinglBlog() {
     setLoading(true);
     fetch(`${uri}/singleblog/${params.id}`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accesstoken }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -37,6 +38,18 @@ function SinglBlog() {
       .catch((err) => {
         setLoading(false);
         navigate("../../");
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(`${uri}/users`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accesstoken }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
       });
   }, []);
 
@@ -51,7 +64,6 @@ function SinglBlog() {
       method: "POST",
     })
       .then(() => {
-        getBlog();
         setLoading(false);
         navigate("../../blog");
       })
@@ -66,7 +78,6 @@ function SinglBlog() {
     })
       .then((res) => {
         if (res.ok) {
-          getBlog();
           setLoading(false);
           navigate("../../blog");
         } else {
@@ -95,12 +106,12 @@ function SinglBlog() {
           {/*displaying the blogers image */}
 
           {bloger.length &&
-          bloger[0].image &&
-          Object.keys(bloger[0].image).length !== 0 ? (
+          bloger[0]?.image &&
+          Object.keys(bloger[0]?.image).length !== 0 ? (
             <img
               src={`data:image;base64,${btoa(
                 String.fromCharCode(
-                  ...new Uint8Array(bloger[0].image.data.data)
+                  ...new Uint8Array(bloger[0]?.image?.data?.data)
                 )
               )}`}
               alt="profile"
@@ -112,7 +123,7 @@ function SinglBlog() {
           <h5>{singleBlog.username ? singleBlog.username : "no username"}</h5>
         </div>
         <div className="allblogs">
-          <h4>{singleBlog.blog}</h4>
+          <h5>{singleBlog.blog}</h5>
           <div className="blog-image">
             {singleBlog.blogimage &&
             Object.keys(singleBlog.blogimage).length !== 0 ? (

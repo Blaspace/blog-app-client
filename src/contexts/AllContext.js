@@ -6,49 +6,87 @@ const AllContext = createContext();
 export function ContextProvider({ children }) {
   const [blog, setBlog] = useState([]);
   const [user, setUser] = useState({});
-  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [accesstoken, setAccesstoken] = useState("");
 
   //const uri = "https://blog-app-ux9e.onrender.com";
   const uri = "http://localhost:3500";
 
+  const logOut = () => {
+    fetch(`${uri}/logout`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ accesstoken }),
+    }).then(() => setAccesstoken(""));
+  };
+
+  const refresh = () => {
+    fetch(`${uri}/refresh`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else if (res.status === 401) {
+          logOut();
+        }
+      })
+      .then((data) => setAccesstoken(data.accesstoken));
+  };
+
   useEffect(() => {
-    const accesstoken = localStorage.getItem("jwt");
+    fetch(`${uri}/refresh`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else if (res.status === 401) {
+          logOut();
+        }
+      })
+      .then((data) => setAccesstoken(data.accesstoken));
+  }, []);
+
+  useEffect(() => {
     fetch(`${uri}/get`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({ accesstoken }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        setLoading(false);
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else if (res.status === 403) {
+          refresh();
+        }
       })
-      .catch((err) => console.log(err));
-  }, []);
+      .then((data) => setUser(data))
+      .finally(() => setLoading(false));
+  }, [accesstoken]);
 
-  useEffect(() => {
-    fetch(`${uri}/users`, {
+  setTimeout(() => {
+    fetch(`${uri}/refresh`, {
       method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data);
-      });
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch(`${uri}/blog`, {
-      method: "POST",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setBlog(data);
-        setLoading(false);
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else if (res.status === 401) {
+          logOut();
+        }
       })
-      .catch(() => setLoading(false));
-  }, []);
+      .then((data) => setAccesstoken(data.accesstoken));
+  }, 1000 * 60 * 14);
 
   return (
     <AllContext.Provider
@@ -56,11 +94,14 @@ export function ContextProvider({ children }) {
         blog,
         setBlog,
         user,
-        users,
         setUser,
         uri,
         loading,
         setLoading,
+        accesstoken,
+        setAccesstoken,
+        logOut,
+        refresh,
       }}
     >
       {children}

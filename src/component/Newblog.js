@@ -2,11 +2,9 @@ import React, { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
 import prof from "../utils/profile.jpg";
-import useFetchBlog from "../hooks/useFetchBlog";
 
 function Newblog() {
   const btnref = useRef();
-  const handleGetBlog = useFetchBlog();
   const inputref = useRef();
   const { user } = useContext(AllContext);
   const [image, setImage] = useState();
@@ -36,6 +34,10 @@ function Newblog() {
   };
 
   const handleSubmit = () => {
+    btnref.current.disabled = true;
+    btnref.current.style.backgroundColor = "lightblue";
+    btnref.current.innerText = "loading...";
+
     const date = new Date();
     const formData = new FormData();
     if (user.image !== undefined) {
@@ -55,8 +57,6 @@ function Newblog() {
           setMessage("blog posted");
           setNewBlog("");
           setImageName("");
-          btnref.current.style.display = "none";
-          inputref.current.style.height = "40px";
         } else if (res.status === 400) {
           setMessage("image file too large");
         } else if (res.status === 402) {
@@ -67,8 +67,14 @@ function Newblog() {
           setMessage("error try again");
         }
       })
-      .then(() => handleGetBlog())
-      .catch((err) => setMessage(err));
+      .catch((err) => setMessage(err))
+      .finally(() => {
+        btnref.current.disabled = false;
+        btnref.current.style.backgroundColor = "navy";
+        btnref.current.innerText = "submit";
+        btnref.current.style.display = "none";
+        inputref.current.style.height = "40px";
+      });
   };
 
   return (
@@ -97,19 +103,21 @@ function Newblog() {
             </p>
           )}
           <div className="newBlog-input">
-            {user.image && Object.keys(user.image).length !== 0 ? (
+            {user?.image && Object.keys(user?.image).length !== 0 ? (
               <img
                 src={`data:image;base64,${btoa(
-                  String.fromCharCode(...new Uint8Array(user.image.data.data))
+                  String.fromCharCode(
+                    ...new Uint8Array(user?.image?.data?.data)
+                  )
                 )}`}
                 alt="profile"
-                onClick={() => navigate(`../profile/${user._id}`)}
+                onClick={() => navigate(`../profile/${user?._id}`)}
               />
             ) : (
               <img
                 src={prof}
                 alt="profile"
-                onClick={() => navigate(`../profile/${user._id}`)}
+                onClick={() => navigate(`../profile/${user?._id}`)}
               />
             )}
             <textarea

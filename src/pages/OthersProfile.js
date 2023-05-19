@@ -13,29 +13,61 @@ function Home() {
   const params = useParams();
   const [singleUser, setSingleUser] = useState({});
   const [errorMesage, setErrorMessage] = useState(null);
-  const { uri, setLoading, loading, blog } = useContext(AllContext);
+  const [blog, setBlog] = useState([]);
+  const [users, setUsers] = useState([]);
+  const { uri, setLoading, loading, accesstoken, refresh } =
+    useContext(AllContext);
 
   useEffect(() => {
     setLoading(true);
     fetch(`${uri}/singleuser/${params.id}`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
+      body: JSON.stringify({ accesstoken }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        setLoading(false);
-        setSingleUser(data);
-        //console.log(data);
-      })
-      .catch((err) => {
-        setLoading(false);
-        setErrorMessage("something went wrong!");
-      });
+      .then((data) => setSingleUser(data))
+      .catch((err) => setErrorMessage("something went wrong!"))
+      .finally(() => setLoading(false));
   }, [params]);
+
+  useEffect(() => {
+    fetch(`${uri}/users`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accesstoken }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else if (res.status === 403) {
+          return refresh();
+        }
+      })
+      .then((data) => setUsers(data));
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`${uri}/blog`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accesstoken }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else if (res.status === 403) {
+          return refresh();
+        }
+      })
+      .then((data) => setBlog(data))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <>
-      {blog.length && !loading ? (
+      {!loading ? (
         <div className="profile">
           <SingleUserHeading
             singleUser={singleUser}
@@ -51,7 +83,7 @@ function Home() {
 
             <div className="profile-main">
               <Newblog />
-              <AllBlog />
+              <AllBlog blog={blog} users={users} />
             </div>
           </section>
           <Popup errorMesage={errorMesage} setErrorMessage={setErrorMessage} />
