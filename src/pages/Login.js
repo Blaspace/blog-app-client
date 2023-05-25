@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import AllContext from "../contexts/AllContext";
 import Loading from "../component/Loading";
+import img from "../utils/profile.jpg";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -37,6 +38,7 @@ function Login() {
   return (
     <div className="login-con">
       <div className="login">
+        <img src={img} />
         <h4 className="err">{error}</h4>
         <form className="form" onSubmit={(e) => e.preventDefault()}>
           <label htmlFor="email">user email:</label>
@@ -59,7 +61,9 @@ function Login() {
           />
           <br />
           <br />
-          <button onClick={() => handleSubmit()}>Login</button>
+          <span>
+            <button onClick={() => handleSubmit()}>Login</button>
+          </span>
         </form>
         <br />
         <div>

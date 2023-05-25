@@ -9,6 +9,7 @@ import SinglBlog from "./pages/SinglBlog";
 import Friends from "./pages/Friends";
 import EditProfile from "./pages/EditProfile";
 import Publicrout from "./component/Publicrout";
+import PersistentLogin from "./component/PersistentLogin";
 
 function App() {
   return (
@@ -19,13 +20,16 @@ function App() {
           <Route path="/signup" element={<Signup />} />
         </Route>
 
-        <Route path="/" element={<Rootrout />}>
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/profile/:id" element={<OthersProfile />} />
-          <Route path="/singleblog/:id" element={<SinglBlog />} />
-          <Route path="/friends" element={<Friends />} />
-          <Route path="/editprofile/:id" element={<EditProfile />} />
+        <Route element={<PersistentLogin />}>
+          <Route path="/" element={<Rootrout />}>
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/profile/:id" element={<OthersProfile />} />
+            <Route path="/singleblog/:id" element={<SinglBlog />} />
+            <Route path="/friends" element={<Friends />} />
+            <Route path="/editprofile/:id" element={<EditProfile />} />
+          </Route>
         </Route>
+
         <Route path="/*" element={<h1>404 page not found</h1>} />
       </Routes>
     </div>

@@ -50,9 +50,8 @@ function AllBlog({ blog, users }) {
                   {value.blog && value.blog.slice(0, 200)}
                   {value.blog && value.blog.length > 200 && "..."}
                 </h5>
-                <div className="blog-image">
-                  {value.blogimage &&
-                  Object.keys(value.blogimage).length !== 0 ? (
+                {value?.blogimage && (
+                  <div className="blog-image">
                     <img
                       src={`data:image;base64,${btoa(
                         String.fromCharCode(
@@ -61,10 +60,8 @@ function AllBlog({ blog, users }) {
                       )}`}
                       alt="blogimage"
                     />
-                  ) : (
-                    ""
-                  )}
-                </div>
+                  </div>
+                )}
                 <p>{value.date}</p>
               </div>
             </div>

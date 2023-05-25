@@ -40,22 +40,6 @@ export function ContextProvider({ children }) {
   };
 
   useEffect(() => {
-    fetch(`${uri}/refresh`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else if (res.status === 401) {
-          logOut();
-        }
-      })
-      .then((data) => setAccesstoken(data.accesstoken));
-  }, []);
-
-  useEffect(() => {
     fetch(`${uri}/get`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
@@ -86,7 +70,7 @@ export function ContextProvider({ children }) {
         }
       })
       .then((data) => setAccesstoken(data.accesstoken));
-  }, 1000 * 60 * 14);
+  }, 1000 * 60 * 60);
 
   return (
     <AllContext.Provider

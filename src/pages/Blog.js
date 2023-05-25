@@ -45,29 +45,26 @@ function Profile() {
 
   return (
     <>
-      {!loading ? (
-        <div className="blog">
-          <div className="left-side">
-            <br />
-            <br />
-            <LeftSideBar />
-          </div>
-          <main className="main">
-            <AllBlog blog={blog} users={users} />
-            <Newblog />
-            <br />
-            <br />
-            <br />
-          </main>
-          <div className="right-side">
-            <br />
-            <br />
-            <RightSidebar users={users} />
-          </div>
+      <div className="blog">
+        <div className="left-side">
+          <br />
+          <br />
+          <LeftSideBar />
         </div>
-      ) : (
-        <Loading />
-      )}
+        <main className="main">
+          <AllBlog blog={blog} users={users} />
+          <Newblog />
+          <br />
+          <br />
+          <br />
+        </main>
+        <div className="right-side">
+          <br />
+          <br />
+          <RightSidebar users={users} />
+        </div>
+      </div>
+      {loading && <Loading />}
     </>
   );
 }

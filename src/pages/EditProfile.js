@@ -4,8 +4,9 @@ import AllContext from "../contexts/AllContext";
 
 function EditProfile() {
   const navigate = useNavigate();
-  const { uri } = useContext(AllContext);
+  const { uri, accesstoken } = useContext(AllContext);
   const [user, setUser] = useState();
+  const [errorMessage, setErrorMessage] = useState(null);
   const params = useParams();
   const bioRef = useRef();
   const stateRef = useRef();
@@ -22,6 +23,7 @@ function EditProfile() {
     fetch(`${uri}/singleuser/${params.id}`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
+      body: JSON.stringify({ accesstoken }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -33,8 +35,11 @@ function EditProfile() {
         setUser(data);
         console.log(data);
       })
-      .catch((err) => console.log(err));
-  }, [params.id]);
+      .catch((err) =>
+        setErrorMessage("something went wrong, please try again!")
+      );
+  }, []);
+
   const handleSubmit = () => {
     const obj = {
       bio,
@@ -102,10 +107,12 @@ function EditProfile() {
             ref={schoolRef}
           />
         </span>
-        <button onClick={handleSubmit}>Update</button>
-        <button onClick={() => navigate(`../profile/${params.id}`)}>
-          cancil
-        </button>
+        <div>
+          <button onClick={handleSubmit}>Update</button>
+          <button onClick={() => navigate(`../profile/${params.id}`)}>
+            cancil
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -37,23 +37,31 @@ function LeftSideBar() {
         <ul className="left-list">
           <li>Red table talk group</li>
           <li>
-            <img src={event} alt="event" /> Events
+            <span>
+              <img src={event} alt="event" /> Events
+            </span>
           </li>
           <li>
-            <img src={save} alt="" />
-            Saved
+            <span>
+              <img src={save} alt="" />
+              Saved
+            </span>
           </li>
           <li>
-            <img src={flag} alt="flag" />
-            Pages
+            <span>
+              <img src={flag} alt="flag" />
+              Pages
+            </span>
           </li>
           <li onClick={() => navigate("../friends")}>
             <img src={friends} alt="friend" />
             Friends
           </li>
           <li>
-            <img src={setting} alt="" />
-            Settings & Privacy
+            <span>
+              <img src={setting} alt="" />
+              Settings & Privacy{" "}
+            </span>
           </li>
           <li onClick={logOut} className="logout">
             Logout

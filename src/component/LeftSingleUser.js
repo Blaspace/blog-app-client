@@ -3,24 +3,23 @@ import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
 
 function LeftSingleUser({ singleUser }) {
-  const { user, uri, logOut } = useContext(AllContext);
+  const { user, uri, logOut, setAccesstoken } = useContext(AllContext);
   const navigate = useNavigate();
 
   const handleDeleteAccount = () => {
-    const accesstoken = localStorage.getItem("jwt");
     fetch(`${uri}/deleteuser`, {
       method: "POST",
+      credentials: "include",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({ _id: singleUser._id }),
     }).then(() => {
-      localStorage.clear("jwt");
-      navigate("../../");
+      setAccesstoken("");
     });
   };
   return (
-    <>
+    <div className="profile-left">
       {Object.keys(singleUser).length && (
-        <div className="profile-left">
+        <>
           <section>
             <h2>Intro</h2>
             <article>
@@ -89,9 +88,9 @@ function LeftSingleUser({ singleUser }) {
               </>
             )}
           </div>
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 }
 

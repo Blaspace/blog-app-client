@@ -47,7 +47,7 @@ function SingleUserHeading({ singleUser, setSingleUser }) {
           ) : (
             <img src={prof} alt="profile" />
           )}
-          {singleUser && user._id === singleUser._id && (
+          {singleUser && user?._id === singleUser?._id && (
             <span>
               <input
                 type="file"

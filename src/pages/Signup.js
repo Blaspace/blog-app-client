@@ -7,9 +7,7 @@ import Popup from "../component/Popup";
 function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [job, setJob] = useState("");
   const [city, setCity] = useState("");
-  const [school, setSchool] = useState("");
   const [state, setState] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -18,7 +16,7 @@ function Signup() {
 
   const handleSignup = async () => {
     setLoading(true);
-    const newObj = { username, email, password, job, state, city, school };
+    const newObj = { username, email, password, state, city };
 
     await fetch(`${uri}/register`, {
       method: "POST",
@@ -52,7 +50,7 @@ function Signup() {
             onChange={(e) => setUsername(e.target.value)}
             placeholder="user name"
           />
-          <br></br>
+          <br />
           <label htmlFor="email">email:</label>
           <br />
           <input
@@ -61,7 +59,7 @@ function Signup() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="email"
           />
-          <br></br>
+          <br />
           <label htmlFor="pasword">pasword:</label>
           <br />
           <input
@@ -70,7 +68,7 @@ function Signup() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="password"
           />
-          <br></br>
+          <br />
           <label htmlFor="state">state of origin:</label>
           <br />
           <input
@@ -78,15 +76,6 @@ function Signup() {
             id="state"
             onChange={(e) => setState(e.target.value)}
             placeholder="state of origin"
-          />
-          <br />
-          <label htmlFor="job">occupation:</label>
-          <br />
-          <input
-            type="text"
-            id="job"
-            onChange={(e) => setJob(e.target.value)}
-            placeholder="occupation"
           />
           <br />
           <label htmlFor="city">City:</label>
@@ -98,14 +87,6 @@ function Signup() {
             placeholder="your city"
           />
           <br />
-          <label htmlFor="school">School:</label>
-          <br />
-          <input
-            type="text"
-            id="school"
-            onChange={(e) => setSchool(e.target.value)}
-            placeholder="school"
-          />
           <br />
           <button onClick={() => handleSignup()}>Signup</button>
         </form>

@@ -101,7 +101,7 @@ function SinglBlog() {
       <div className="single-blog">
         <div
           className="blog-profile"
-          onClick={() => navigate(`../profile/${singleBlog.userid}`)}
+          onClick={() => navigate(`../profile/${singleBlog?.userid}`)}
         >
           {/*displaying the blogers image */}
 
@@ -120,26 +120,23 @@ function SinglBlog() {
           ) : (
             <img src={prof} alt="profile" />
           )}
-          <h5>{singleBlog.username ? singleBlog.username : "no username"}</h5>
+          <h5>{singleBlog?.username ? singleBlog?.username : "no username"}</h5>
         </div>
         <div className="allblogs">
           <h5>{singleBlog.blog}</h5>
-          <div className="blog-image">
-            {singleBlog.blogimage &&
-            Object.keys(singleBlog.blogimage).length !== 0 ? (
+          {singleBlog?.blogimage && (
+            <div className="single-blog-image">
               <img
                 src={`data:image;base64,${btoa(
                   String.fromCharCode(
-                    ...new Uint8Array(singleBlog.blogimage.data.data)
+                    ...new Uint8Array(singleBlog?.blogimage?.data?.data)
                   )
                 )}`}
                 alt="blogimage"
               />
-            ) : (
-              ""
-            )}
-          </div>
-          <p>{singleBlog.date}</p>
+            </div>
+          )}
+          <p>{singleBlog?.date}</p>
         </div>
         <form
           className="edit-input"
@@ -155,9 +152,9 @@ function SinglBlog() {
         </form>
         <div className="single-blog-edit">
           <button onClick={() => navigate("../blog")}>
-            {singleBlog.userid === user._id ? "cancle" : "Back"}
+            {singleBlog?.userid === user?._id ? "cancle" : "Back"}
           </button>
-          {singleBlog.userid === user._id && (
+          {singleBlog?.userid === user?._id && (
             <>
               {" "}
               <button onClick={handleDelete}>Delete Blog</button>

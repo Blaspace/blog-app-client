@@ -67,30 +67,27 @@ function Home() {
 
   return (
     <>
-      {!loading ? (
-        <div className="profile">
-          <SingleUserHeading
-            singleUser={singleUser}
-            setSingleUser={setSingleUser}
-          />
-          <ProfileUI />
-          <section className="profile-body">
-            <div className="left-profile-con">
-              <LeftSingleUser singleUser={singleUser} />
-            </div>
+      <div className="profile">
+        <SingleUserHeading
+          singleUser={singleUser}
+          setSingleUser={setSingleUser}
+        />
+        <ProfileUI />
+        <section className="profile-body">
+          <div className="left-profile-con">
+            <LeftSingleUser singleUser={singleUser} />
+          </div>
 
-            {/*main area*/}
+          {/*main area*/}
 
-            <div className="profile-main">
-              <Newblog />
-              <AllBlog blog={blog} users={users} />
-            </div>
-          </section>
-          <Popup errorMesage={errorMesage} setErrorMessage={setErrorMessage} />
-        </div>
-      ) : (
-        <Loading />
-      )}
+          <div className="profile-main">
+            <Newblog />
+            <AllBlog blog={blog} users={users} />
+          </div>
+        </section>
+        <Popup errorMesage={errorMesage} setErrorMessage={setErrorMessage} />
+      </div>
+      {loading && <Loading />}
     </>
   );
 }
