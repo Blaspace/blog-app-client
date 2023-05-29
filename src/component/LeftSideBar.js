@@ -1,17 +1,12 @@
 import React, { useContext } from "react";
 import AllContext from "../contexts/AllContext";
-import prof from "../utils/profile.jpg";
-import flag from "../utils/flag.png";
-import friends from "../utils/friends.png";
-import save from "../utils/save.png";
-import setting from "../utils/setting.png";
-import event from "../utils/event.png";
+import { CgProfile } from "react-icons/cg";
+import { FaUserFriends } from "react-icons/fa";
 import { useNavigate } from "react-router";
 
 function LeftSideBar() {
   const { user, logOut } = useContext(AllContext);
   const navigate = useNavigate();
-
   return (
     <>
       <div className="left-sidebar">
@@ -28,39 +23,24 @@ function LeftSideBar() {
               onClick={() => navigate(`../profile/${user._id}`)}
             />
           ) : (
-            <img src={prof} alt="profile" />
+            <>
+              <CgProfile className="left-profile-icon" />
+              <br />
+            </>
           )}
-          <h4>{user?.name}</h4>
-          <h3>{user?.email}</h3>
+          <p>
+            {user?.name}
+            <br />
+            <span>{user?.email}</span>
+          </p>
         </div>
         <br />
         <ul className="left-list">
           <li>Red table talk group</li>
-          <li>
-            <span>
-              <img src={event} alt="event" /> Events
-            </span>
-          </li>
-          <li>
-            <span>
-              <img src={save} alt="" />
-              Saved
-            </span>
-          </li>
-          <li>
-            <span>
-              <img src={flag} alt="flag" />
-              Pages
-            </span>
-          </li>
           <li onClick={() => navigate("../friends")}>
-            <img src={friends} alt="friend" />
-            Friends
-          </li>
-          <li>
-            <span>
-              <img src={setting} alt="" />
-              Settings & Privacy{" "}
+            <FaUserFriends style={{ fontSize: "30px", marginRight: "10px" }} />
+            <span style={{ fontSize: "larger", marginBottom: "20px" }}>
+              Friends
             </span>
           </li>
           <li onClick={logOut} className="logout">

@@ -6,10 +6,7 @@ function ProfileHeader() {
   return (
     <>
       <ul className="porfile-ul">
-        <li>About</li>
         <li onClick={() => navigate("../friends")}>Friends</li>
-        <li>Photos</li>
-        <li>Archive</li>
         <li onClick={() => navigate("../blog")}>Blog</li>
       </ul>
     </>

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
-import prof from "../utils/profile.jpg";
+import { CgProfile } from "react-icons/cg";
 
 function RightSidebar({ users }) {
   const [Users, setUsers] = useState([]);
@@ -41,10 +41,9 @@ function RightSidebar({ users }) {
                   onClick={() => navigate(`../profile/${user?._id}`)}
                 />
               ) : (
-                <img
-                  src={prof}
-                  alt="profile"
-                  onClick={() => navigate(`../profile/${user?._id}`)}
+                <CgProfile
+                  className="profile-icon"
+                  onClick={() => navigate(`../profile/${value.userid}`)}
                 />
               )}
               <span>{value?.username}</span>

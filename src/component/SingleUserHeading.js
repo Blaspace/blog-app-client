@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
-import prof from "../utils/profile.jpg";
+import { CgProfile } from "react-icons/cg";
 import cam from "../utils/cam.jpg";
 import { useParams } from "react-router";
 import AllContext from "../contexts/AllContext";
+import { MdCameraAlt } from "react-icons/md";
 import Popup from "./Popup";
 
 function SingleUserHeading({ singleUser, setSingleUser }) {
@@ -45,7 +46,7 @@ function SingleUserHeading({ singleUser, setSingleUser }) {
               alt="profile"
             />
           ) : (
-            <img src={prof} alt="profile" />
+            <CgProfile className="user-profile-icon" />
           )}
           {singleUser && user?._id === singleUser?._id && (
             <span>
@@ -54,7 +55,7 @@ function SingleUserHeading({ singleUser, setSingleUser }) {
                 name="profile"
                 onChange={(e) => profilrUpload(e)}
               />
-              <img src={cam} alt="img" />
+              <MdCameraAlt className="img-upload" />
             </span>
           )}
           <h3>{singleUser && singleUser?.name}</h3>

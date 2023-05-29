@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
-import prof from "../utils/profile.jpg";
-import fbicon from "../utils/fbi.png";
+import { CgProfile } from "react-icons/cg";
+import { FaUserFriends, FaBlog } from "react-icons/fa";
 import AllContext from "../contexts/AllContext";
 import { useNavigate } from "react-router";
-import friends from "../utils/friends.png";
 
 function Nav() {
   const { user } = useContext(AllContext);
@@ -11,10 +10,10 @@ function Nav() {
   return (
     <div className="nav">
       <div onClick={() => navigate("../blog")}>
-        <img src={fbicon} alt="profile" />
+        <FaBlog style={{ fontSize: "30px" }} />
       </div>
       <div className="friends-icon" onClick={() => navigate("../friends")}>
-        <img src={friends} alt="" />
+        <FaUserFriends style={{ fontSize: "40px" }} />
       </div>
       <div>
         <h1>
@@ -34,10 +33,9 @@ function Nav() {
             onClick={() => navigate(`../profile/${user?._id}`)}
           />
         ) : (
-          <img
-            src={prof}
-            alt="profile"
-            onClick={() => navigate(`../profile/${user?._id}`)}
+          <CgProfile
+            className="profile-icon"
+            onClick={() => navigate(`../profile/${user._id}`)}
           />
         )}
         <h4>{user?.name}</h4>

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useContext } from "react";
 import AllContext from "../contexts/AllContext";
-import prof from "../utils/profile.jpg";
+import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router";
 
 function AllBlog({ blog, users }) {
@@ -34,22 +34,26 @@ function AllBlog({ blog, users }) {
                     onClick={() => navigate(`../profile/${bloger._id}`)}
                   />
                 ) : (
-                  <img
-                    src={prof}
-                    alt="profile"
+                  <CgProfile
+                    className="profile-icon"
                     onClick={() => navigate(`../profile/${value.userid}`)}
                   />
                 )}
-                <h5>{value.username}</h5>
+                <span>
+                  <p style={{ fontWeight: "bolder" }}>{value.username}</p>
+                  <p style={{ color: "grey", fontSize: "smaller" }}>
+                    {bloger[0]?.email}
+                  </p>
+                </span>
               </div>
               <div
                 className="allblogs"
                 onClick={() => navigate(`/singleblog/${value._id}`)}
               >
-                <h5>
+                <p className="blog-text">
                   {value.blog && value.blog.slice(0, 200)}
                   {value.blog && value.blog.length > 200 && "..."}
-                </h5>
+                </p>
                 {value?.blogimage && (
                   <div className="blog-image">
                     <img
@@ -62,7 +66,7 @@ function AllBlog({ blog, users }) {
                     />
                   </div>
                 )}
-                <p>{value.date}</p>
+                <p className="blog-date">{value.date}</p>
               </div>
             </div>
           );

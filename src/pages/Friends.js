@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
-import prof from "../utils/profile.jpg";
+import { CgProfile } from "react-icons/cg";
 
 function Friends() {
   const [newUsers, setNewUsers] = useState([]);
@@ -22,7 +22,7 @@ function Friends() {
   }, []);
 
   useEffect(() => {
-    if (users.length) {
+    if (users?.length) {
       const otherUsers = users.filter((value) => value._id !== user._id);
       setNewUsers(otherUsers);
     }
@@ -40,7 +40,7 @@ function Friends() {
           <i>friends on this app</i>
         </h1>
         {newUsers.length ? (
-          newUsers.map((value) => {
+          newUsers?.map((value) => {
             return (
               <li
                 key={value._id}
@@ -58,11 +58,7 @@ function Friends() {
                     alt="profile"
                   />
                 ) : (
-                  <img
-                    src={prof}
-                    alt="profile"
-                    onClick={() => navigate(`../profile/${user._id}`)}
-                  />
+                  <CgProfile style={{ fontSize: "50px" }} />
                 )}
                 <p>
                   <span>{value.username}</span>

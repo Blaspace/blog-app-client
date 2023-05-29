@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
-import prof from "../utils/profile.jpg";
+import { CgProfile } from "react-icons/cg";
 
 function Newblog() {
   const btnref = useRef();
@@ -114,10 +114,9 @@ function Newblog() {
                 onClick={() => navigate(`../profile/${user?._id}`)}
               />
             ) : (
-              <img
-                src={prof}
-                alt="profile"
-                onClick={() => navigate(`../profile/${user?._id}`)}
+              <CgProfile
+                className="profile-icon"
+                onClick={() => navigate(`../profile/${user._id}`)}
               />
             )}
             <textarea

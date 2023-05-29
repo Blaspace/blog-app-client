@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import prof from "../utils/profile.jpg";
+import { CgProfile } from "react-icons/cg";
 import AllContext from "../contexts/AllContext";
 import Loading from "../component/Loading";
 import Popup from "../component/Popup";
@@ -95,7 +96,7 @@ function SinglBlog() {
       setBloger(users.filter((i) => i._id === singleBlog.userid));
     }
   }, [singleBlog]);
-
+  console.log(bloger[0]?.email);
   return (
     <div className="single-blog-con">
       <div className="single-blog">
@@ -118,12 +119,19 @@ function SinglBlog() {
               onClick={() => navigate(`../profile/${bloger._id}`)}
             />
           ) : (
-            <img src={prof} alt="profile" />
+            <CgProfile style={{ fontSize: "40px" }} />
           )}
-          <h5>{singleBlog?.username ? singleBlog?.username : "no username"}</h5>
+          <span>
+            <p style={{ fontWeight: "bolder" }}>
+              {singleBlog?.username ? singleBlog?.username : "no username"}
+            </p>
+            <p style={{ fontSize: "smaller", color: "grey" }}>
+              {bloger[0]?.email ? bloger[0]?.email : "no email"}
+            </p>
+          </span>
         </div>
         <div className="allblogs">
-          <h5>{singleBlog.blog}</h5>
+          <p className="blog-text">{singleBlog.blog}</p>
           {singleBlog?.blogimage && (
             <div className="single-blog-image">
               <img
@@ -136,7 +144,7 @@ function SinglBlog() {
               />
             </div>
           )}
-          <p>{singleBlog?.date}</p>
+          <p className="blog-date">{singleBlog?.date}</p>
         </div>
         <form
           className="edit-input"
