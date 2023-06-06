@@ -3,6 +3,7 @@ import AllContext from "../contexts/AllContext";
 import { CgProfile } from "react-icons/cg";
 import { FaUserFriends } from "react-icons/fa";
 import { useNavigate } from "react-router";
+import Skeleton from "react-loading-skeleton";
 
 function LeftSideBar() {
   const { user, logOut } = useContext(AllContext);
@@ -15,23 +16,45 @@ function LeftSideBar() {
           onClick={() => navigate(`../profile/${user._id}`)}
         >
           {user?.image && Object.keys(user?.image).length !== 0 ? (
-            <img
-              src={`data:image;base64,${btoa(
-                String.fromCharCode(...new Uint8Array(user?.image?.data?.data))
-              )}`}
-              alt="profile"
-              onClick={() => navigate(`../profile/${user._id}`)}
-            />
+            <>
+              {!user ? (
+                <Skeleton circle height={"60px"} width={"60px"} />
+              ) : (
+                <img
+                  src={`data:image;base64,${btoa(
+                    String.fromCharCode(
+                      ...new Uint8Array(user?.image?.data?.data)
+                    )
+                  )}`}
+                  alt="profile"
+                  onClick={() => navigate(`../profile/${user._id}`)}
+                />
+              )}
+            </>
           ) : (
             <>
-              <CgProfile className="left-profile-icon" />
+              {!user ? (
+                <Skeleton circle height={"60px"} width={"60px"} />
+              ) : (
+                <CgProfile className="left-profile-icon" />
+              )}
               <br />
             </>
           )}
           <p>
-            {user?.name}
-            <br />
-            <span>{user?.email}</span>
+            {!user ? (
+              <Skeleton
+                height={"20px"}
+                width={"200px"}
+                style={{ marginLeft: "5px" }}
+              />
+            ) : (
+              <>
+                {user?.name}
+                <br />
+                <span style={{ color: "gray" }}>{user?.email}</span>
+              </>
+            )}
           </p>
         </div>
         <br />

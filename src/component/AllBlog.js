@@ -1,19 +1,18 @@
 import React from "react";
-import { useContext } from "react";
-import AllContext from "../contexts/AllContext";
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router";
+import AllBogSkeleton from "./AllBogSkeleton";
 
 function AllBlog({ blog, users }) {
   const navigate = useNavigate();
-  const { loading } = useContext(AllContext);
   return (
     <>
-      {blog?.length &&
-        !loading &&
+      {!blog?.length && !users?.length ? (
+        //skeleton loader
+        <AllBogSkeleton cards={4} />
+      ) : (
         blog.map((value) => {
           //getting the bloger for each of the blog
-
           const bloger = users?.filter((person) => person._id === value.userid);
           return (
             <div className="blog-con" key={value._id}>
@@ -21,8 +20,7 @@ function AllBlog({ blog, users }) {
                 className="blog-profile"
                 onClick={() => navigate(`../profile/${value.userid}`)}
               >
-                {/*putting the if the bloger here if any image*/}
-
+                {/*checking if the bloger has any image*/}
                 {bloger[0]?.image && Object.keys(bloger[0]?.image).length ? (
                   <img
                     src={`data:image;base64,${btoa(
@@ -70,7 +68,8 @@ function AllBlog({ blog, users }) {
               </div>
             </div>
           );
-        })}
+        })
+      )}
     </>
   );
 }

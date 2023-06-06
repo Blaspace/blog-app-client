@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { CgProfile } from "react-icons/cg";
-import cam from "../utils/cam.jpg";
 import { useParams } from "react-router";
 import AllContext from "../contexts/AllContext";
 import { MdCameraAlt } from "react-icons/md";
@@ -58,7 +57,7 @@ function SingleUserHeading({ singleUser, setSingleUser }) {
               <MdCameraAlt className="img-upload" />
             </span>
           )}
-          <h3>{singleUser && singleUser?.name}</h3>
+          <p style={{ fontSize: "20px" }}>{singleUser && singleUser?.name}</p>
         </div>
       </header>
     </>

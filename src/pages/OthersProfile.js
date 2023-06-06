@@ -6,7 +6,6 @@ import LeftSingleUser from "../component/LeftSingleUser";
 import SingleUserHeading from "../component/SingleUserHeading";
 import { useParams } from "react-router";
 import AllContext from "../contexts/AllContext";
-import Loading from "../component/Loading";
 import Popup from "../component/Popup";
 
 function Home() {
@@ -15,8 +14,7 @@ function Home() {
   const [errorMesage, setErrorMessage] = useState(null);
   const [blog, setBlog] = useState([]);
   const [users, setUsers] = useState([]);
-  const { uri, setLoading, loading, accesstoken, refresh } =
-    useContext(AllContext);
+  const { uri, setLoading, accesstoken, refresh } = useContext(AllContext);
 
   useEffect(() => {
     setLoading(true);
@@ -87,7 +85,6 @@ function Home() {
         </section>
         <Popup errorMesage={errorMesage} setErrorMessage={setErrorMessage} />
       </div>
-      {loading && <Loading />}
     </>
   );
 }

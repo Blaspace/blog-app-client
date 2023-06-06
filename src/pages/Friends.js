@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
 import { CgProfile } from "react-icons/cg";
+import FriendsSkeleton from "../component/FriendsSkeleton";
 
 function Friends() {
   const [newUsers, setNewUsers] = useState([]);
@@ -39,7 +40,9 @@ function Friends() {
         <h1 style={{ textAlign: "center" }}>
           <i>friends on this app</i>
         </h1>
-        {newUsers.length ? (
+        {!newUsers.length ? (
+          <FriendsSkeleton cards={5} />
+        ) : newUsers.length ? (
           newUsers?.map((value) => {
             return (
               <li

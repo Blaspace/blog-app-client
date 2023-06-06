@@ -3,6 +3,7 @@ import { CgProfile } from "react-icons/cg";
 import { FaUserFriends, FaBlog } from "react-icons/fa";
 import AllContext from "../contexts/AllContext";
 import { useNavigate } from "react-router";
+import Skeleton from "react-loading-skeleton";
 
 function Nav() {
   const { user } = useContext(AllContext);
@@ -25,20 +26,57 @@ function Nav() {
         onClick={() => navigate(`../profile/${user?._id}`)}
       >
         {user?.image && Object.keys(user?.image).length !== 0 ? (
-          <img
-            src={`data:image;base64,${btoa(
-              String.fromCharCode(...new Uint8Array(user?.image?.data?.data))
-            )}`}
-            alt="profile"
-            onClick={() => navigate(`../profile/${user?._id}`)}
-          />
+          <>
+            {!user ? (
+              <Skeleton
+                circle
+                height={"35px"}
+                width={"35px"}
+                baseColor="#cfd1d5"
+                highlightColor="#ecf3ff"
+              />
+            ) : (
+              <img
+                src={`data:image;base64,${btoa(
+                  String.fromCharCode(
+                    ...new Uint8Array(user?.image?.data?.data)
+                  )
+                )}`}
+                alt="profile"
+                onClick={() => navigate(`../profile/${user?._id}`)}
+              />
+            )}
+          </>
         ) : (
-          <CgProfile
-            className="profile-icon"
-            onClick={() => navigate(`../profile/${user._id}`)}
-          />
+          <>
+            {!user ? (
+              <Skeleton
+                circle
+                height={"50px"}
+                width={"50px"}
+                baseColor="#cfd1d5"
+                highlightColor="#ecf3ff"
+              />
+            ) : (
+              <CgProfile
+                className="profile-icon"
+                onClick={() => navigate(`../profile/${user._id}`)}
+              />
+            )}
+          </>
         )}
-        <h4>{user?.name}</h4>
+        <h4>
+          {!user ? (
+            <Skeleton
+              height={"10px"}
+              width={"100px"}
+              baseColor="#cfd1d5"
+              highlightColor="#ecf3ff"
+            />
+          ) : (
+            user?.name
+          )}
+        </h4>
       </div>
     </div>
   );

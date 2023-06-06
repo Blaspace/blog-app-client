@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
 import { CgProfile } from "react-icons/cg";
+import SkeletonRightSideBar from "./SkeletonRightSideBar";
 
 function RightSidebar({ users }) {
   const [Users, setUsers] = useState([]);
@@ -21,7 +22,9 @@ function RightSidebar({ users }) {
 
   return (
     <ul className="right-sidebar">
-      {Users?.length ? (
+      {!Users?.length ? (
+        <SkeletonRightSideBar />
+      ) : Users?.length ? (
         Users.slice(0, 6).map((value) => {
           return (
             <li

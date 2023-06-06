@@ -2,17 +2,17 @@ import React, { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
 import { CgProfile } from "react-icons/cg";
+import Skeleton from "react-loading-skeleton";
 
-function Newblog() {
+function Newblog({ setBlog, blog }) {
   const btnref = useRef();
   const inputref = useRef();
-  const { user } = useContext(AllContext);
+  const { user, uri } = useContext(AllContext);
   const [image, setImage] = useState();
   const [imageName, setImageName] = useState();
   const [newblog, setNewBlog] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const { uri } = useContext(AllContext);
 
   const typing = (e) => {
     inputref.current.style.height = "100px";
@@ -54,9 +54,7 @@ function Newblog() {
     })
       .then((res) => {
         if (res.ok) {
-          setMessage("blog posted");
-          setNewBlog("");
-          setImageName("");
+          return res.json();
         } else if (res.status === 400) {
           setMessage("image file too large");
         } else if (res.status === 402) {
@@ -67,7 +65,13 @@ function Newblog() {
           setMessage("error try again");
         }
       })
-      .catch((err) => setMessage(err))
+      .then((data) => {
+        setBlog([...blog, data]);
+        setMessage("blog posted");
+        setNewBlog("");
+        setImageName("");
+      })
+      .catch((err) => console.error(err))
       .finally(() => {
         btnref.current.disabled = false;
         btnref.current.style.backgroundColor = "navy";
@@ -103,22 +107,31 @@ function Newblog() {
             </p>
           )}
           <div className="newBlog-input">
-            {user?.image && Object.keys(user?.image).length !== 0 ? (
-              <img
-                src={`data:image;base64,${btoa(
-                  String.fromCharCode(
-                    ...new Uint8Array(user?.image?.data?.data)
-                  )
-                )}`}
-                alt="profile"
-                onClick={() => navigate(`../profile/${user?._id}`)}
-              />
-            ) : (
-              <CgProfile
-                className="profile-icon"
-                onClick={() => navigate(`../profile/${user._id}`)}
-              />
-            )}
+            <>
+              {!user ? (
+                <Skeleton
+                  circle
+                  height={"50px"}
+                  width={"50px"}
+                  style={{ marginRight: "10px" }}
+                />
+              ) : user?.image && Object.keys(user?.image).length !== 0 ? (
+                <img
+                  src={`data:image;base64,${btoa(
+                    String.fromCharCode(
+                      ...new Uint8Array(user?.image?.data?.data)
+                    )
+                  )}`}
+                  alt="profile"
+                  onClick={() => navigate(`../profile/${user?._id}`)}
+                />
+              ) : (
+                <CgProfile
+                  className="profile-icon"
+                  onClick={() => navigate(`../profile/${user._id}`)}
+                />
+              )}
+            </>
             <textarea
               type="text"
               placeholder="Create a blog"

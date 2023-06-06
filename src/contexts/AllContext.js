@@ -4,10 +4,9 @@ import React from "react";
 const AllContext = createContext();
 
 export function ContextProvider({ children }) {
-  const [blog, setBlog] = useState([]);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
-  const [accesstoken, setAccesstoken] = useState("");
+  const [accesstoken, setAccesstoken] = useState(null);
 
   const uri = "https://blog-app-ux9e.onrender.com";
   //const uri = "http://localhost:3500";
@@ -22,6 +21,26 @@ export function ContextProvider({ children }) {
       body: JSON.stringify({ accesstoken }),
     }).then(() => setAccesstoken(""));
   };
+
+  useEffect(() => {
+    if (accesstoken) {
+      fetch(`${uri}/get`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accesstoken }),
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 403) {
+            refresh();
+          }
+        })
+        .then((data) => setUser(data))
+        .catch((err) => console.log(err));
+    }
+  }, [accesstoken]);
 
   const refresh = () => {
     fetch(`${uri}/refresh`, {
@@ -39,44 +58,11 @@ export function ContextProvider({ children }) {
       .then((data) => setAccesstoken(data.accesstoken));
   };
 
-  useEffect(() => {
-    fetch(`${uri}/get`, {
-      method: "POST",
-      headers: { "content-Type": "application/json" },
-      body: JSON.stringify({ accesstoken }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else if (res.status === 403) {
-          refresh();
-        }
-      })
-      .then((data) => setUser(data))
-      .finally(() => setLoading(false));
-  }, [accesstoken]);
-
-  setTimeout(() => {
-    fetch(`${uri}/refresh`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else if (res.status === 401) {
-          logOut();
-        }
-      })
-      .then((data) => setAccesstoken(data.accesstoken));
-  }, 1000 * 60 * 60);
+  setTimeout(() => accesstoken && refresh(), 1000 * 60 * 60);
 
   return (
     <AllContext.Provider
       value={{
-        blog,
-        setBlog,
         user,
         setUser,
         uri,
