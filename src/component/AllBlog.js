@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router";
 import AllBogSkeleton from "./AllBogSkeleton";
+import BlogContext from "../contexts/BlogContext";
 
-function AllBlog({ blog, users }) {
+function AllBlog() {
   const navigate = useNavigate();
+  const { blog, users } = useContext(BlogContext);
   return (
     <>
       {!blog?.length && !users?.length ? (
         //skeleton loader
         <AllBogSkeleton cards={4} />
       ) : (
-        blog.map((value) => {
+        blog?.map((value) => {
           //getting the bloger for each of the blog
           const bloger = users?.filter((person) => person._id === value.userid);
           return (

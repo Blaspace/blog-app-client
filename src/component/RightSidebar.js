@@ -3,11 +3,13 @@ import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
 import { CgProfile } from "react-icons/cg";
 import SkeletonRightSideBar from "./SkeletonRightSideBar";
+import BlogContext from "../contexts/BlogContext";
 
-function RightSidebar({ users }) {
+function RightSidebar() {
   const [Users, setUsers] = useState([]);
   const navigate = useNavigate();
   const { user } = useContext(AllContext);
+  const { users } = useContext(BlogContext);
 
   useEffect(() => {
     if (users.length) {

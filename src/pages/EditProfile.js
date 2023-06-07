@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import AllContext from "../contexts/AllContext";
 
 function EditProfile() {
   const navigate = useNavigate();
-  const { uri, accesstoken } = useContext(AllContext);
-  const [user, setUser] = useState();
+  const { uri, user } = useContext(AllContext);
   const [errorMessage, setErrorMessage] = useState(null);
   const params = useParams();
   const bioRef = useRef();
@@ -20,24 +19,11 @@ function EditProfile() {
   const [school, setSchool] = useState();
 
   useEffect(() => {
-    fetch(`${uri}/singleuser/${params.id}`, {
-      method: "POST",
-      headers: { "content-Type": "application/json" },
-      body: JSON.stringify({ accesstoken }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        bioRef.current.value = data.bio ? data.bio : "";
-        stateRef.current.value = data.state ? data.state : "";
-        jobRef.current.value = data.job ? data.job : "";
-        cityRef.current.value = data.city ? data.city : "";
-        schoolRef.current.value = data.school ? data.school : "";
-        setUser(data);
-        console.log(data);
-      })
-      .catch((err) =>
-        setErrorMessage("something went wrong, please try again!")
-      );
+    setBio(user?.bio);
+    setCity(user?.city);
+    setJob(user?.job);
+    setState(user?.state);
+    setSchool(user?.school);
   }, []);
 
   const handleSubmit = () => {
@@ -69,6 +55,7 @@ function EditProfile() {
             placeholder="bio"
             onChange={(e) => setBio(e.target.value)}
             ref={bioRef}
+            value={bio}
           />
         </span>
         <span>
@@ -78,6 +65,7 @@ function EditProfile() {
             placeholder="state"
             onChange={(e) => setState(e.target.value)}
             ref={stateRef}
+            value={state}
           />
         </span>
         <span>
@@ -87,6 +75,7 @@ function EditProfile() {
             placeholder="job"
             onChange={(e) => setJob(e.target.value)}
             ref={jobRef}
+            value={job}
           />
         </span>
         <span>
@@ -96,6 +85,7 @@ function EditProfile() {
             placeholder="city"
             onChange={(e) => setCity(e.target.value)}
             ref={cityRef}
+            value={city}
           />
         </span>
         <span>
@@ -105,6 +95,7 @@ function EditProfile() {
             placeholder="school"
             onChange={(e) => setSchool(e.target.value)}
             ref={schoolRef}
+            value={school}
           />
         </span>
         <div>

@@ -872,9 +872,9 @@
   }
   .user-profile-icon {
     color: black;
-    font-size: 150px;
+    font-size: 170px;
     position: relative;
-    top: 50px;
+    top: 40px;
     left: 50px;
     background: #cfd1cf;
     border-radius: 50%;

@@ -22,6 +22,22 @@ export function ContextProvider({ children }) {
     }).then(() => setAccesstoken(""));
   };
 
+  const refresh = () => {
+    fetch(`${uri}/refresh`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else if (res.status === 401) {
+          logOut();
+        }
+      })
+      .then((data) => setAccesstoken(data.accesstoken));
+  };
+
   useEffect(() => {
     if (accesstoken) {
       fetch(`${uri}/get`, {
@@ -41,22 +57,6 @@ export function ContextProvider({ children }) {
         .catch((err) => console.log(err));
     }
   }, [accesstoken]);
-
-  const refresh = () => {
-    fetch(`${uri}/refresh`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else if (res.status === 401) {
-          logOut();
-        }
-      })
-      .then((data) => setAccesstoken(data.accesstoken));
-  };
 
   setTimeout(() => accesstoken && refresh(), 1000 * 60 * 60);
 

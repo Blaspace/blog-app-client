@@ -4,12 +4,15 @@ import { useParams } from "react-router";
 import AllContext from "../contexts/AllContext";
 import { MdCameraAlt } from "react-icons/md";
 import Popup from "./Popup";
+import BlogContext from "../contexts/BlogContext";
 
-function SingleUserHeading({ singleUser, setSingleUser }) {
+function SingleUserHeading() {
   const params = useParams();
   const { user, uri } = useContext(AllContext);
   const [errorMessage, setErrorMessage] = useState(null);
+  const { users } = useContext(BlogContext);
 
+  const singleUser = users.filter((user) => user._id === params.id);
   const profilrUpload = (e) => {
     const formData = new FormData();
     formData.append("profile", e.target.files[0]);
@@ -35,11 +38,11 @@ function SingleUserHeading({ singleUser, setSingleUser }) {
       <Popup errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
       <header className="profile-header">
         <div className="profile-img">
-          {singleUser?.image && Object.keys(obj).length !== 0 ? (
+          {singleUser?.length && singleUser[0]?.image?.data ? (
             <img
               src={`data:image;base64,${btoa(
                 String.fromCharCode(
-                  ...new Uint8Array(singleUser?.image?.data?.data)
+                  ...new Uint8Array(singleUser[0]?.image?.data?.data)
                 )
               )}`}
               alt="profile"
@@ -47,7 +50,7 @@ function SingleUserHeading({ singleUser, setSingleUser }) {
           ) : (
             <CgProfile className="user-profile-icon" />
           )}
-          {singleUser && user?._id === singleUser?._id && (
+          {singleUser && user?._id === singleUser[0]?._id && (
             <span>
               <input
                 type="file"
@@ -57,7 +60,9 @@ function SingleUserHeading({ singleUser, setSingleUser }) {
               <MdCameraAlt className="img-upload" />
             </span>
           )}
-          <p style={{ fontSize: "20px" }}>{singleUser && singleUser?.name}</p>
+          <p style={{ fontSize: "20px" }}>
+            {singleUser && singleUser[0]?.username}
+          </p>
         </div>
       </header>
     </>

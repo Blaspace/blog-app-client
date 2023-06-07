@@ -1,18 +1,23 @@
 import React, { useContext } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import AllContext from "../contexts/AllContext";
 import Skeleton from "react-loading-skeleton";
+import BlogContext from "../contexts/BlogContext";
 
-function LeftSingleUser({ singleUser }) {
+function LeftSingleUser() {
+  const params = useParams();
   const { user, uri, logOut, setAccesstoken } = useContext(AllContext);
+  const { users } = useContext(BlogContext);
   const navigate = useNavigate();
+
+  const singleUser = users.filter((user) => user?._id === params.id);
 
   const handleDeleteAccount = () => {
     fetch(`${uri}/deleteuser`, {
       method: "POST",
       credentials: "include",
       headers: { "content-Type": "application/json" },
-      body: JSON.stringify({ _id: singleUser._id }),
+      body: JSON.stringify({ _id: singleUser?._id }),
     }).then(() => {
       setAccesstoken("");
     });
@@ -22,8 +27,8 @@ function LeftSingleUser({ singleUser }) {
       <section>
         <h2>Intro</h2>
         <article>
-          {singleUser && singleUser?.bio !== undefined ? (
-            singleUser.bio
+          {singleUser?.length ? (
+            singleUser[0]?.bio
           ) : (
             <>
               <p>add a short bio to tell people about yourself</p>
@@ -35,46 +40,49 @@ function LeftSingleUser({ singleUser }) {
       <div className="profile-info">
         <ul>
           <li>
-            {singleUser && singleUser?.school === undefined ? (
+            {!singleUser?.length ? (
               "add an institution!"
             ) : (
               <p>
                 studied at :
-                <b>{!singleUser ? <Skeleton /> : singleUser?.school}</b>
+                <b>{!singleUser ? <Skeleton /> : singleUser[0]?.school}</b>
               </p>
             )}
           </li>
           <li>
-            {singleUser && singleUser?.job === undefined ? (
+            {!singleUser?.length ? (
               "add your job!"
             ) : (
               <p>
                 works at :{" "}
-                <b> {!singleUser ? <Skeleton /> : singleUser?.job}</b>{" "}
+                <b> {!singleUser ? <Skeleton /> : singleUser[0]?.job}</b>{" "}
               </p>
             )}
           </li>
           <li>
-            {singleUser && singleUser?.city === undefined ? (
+            {!singleUser?.length ? (
               "add your city!"
             ) : (
               <p>
                 live at :
-                <b> {!singleUser ? <Skeleton /> : singleUser?.city} </b>
+                <b> {!singleUser ? <Skeleton /> : singleUser[0]?.city} </b>
               </p>
             )}
           </li>
           <li>
-            {singleUser && singleUser?.state === undefined ? (
+            {!singleUser?.length ? (
               "add your state!"
             ) : (
               <p>
-                from : <b>{!singleUser ? <Skeleton /> : singleUser?.state} </b>
+                from :{" "}
+                <b>
+                  {!singleUser?.length ? <Skeleton /> : singleUser[0]?.state}{" "}
+                </b>
               </p>
             )}
           </li>
         </ul>
-        {singleUser && user?._id === singleUser._id && (
+        {user?._id === singleUser[0]?._id && (
           <>
             <button
               onClick={() => navigate(`../editprofile/${singleUser?._id}`)}
