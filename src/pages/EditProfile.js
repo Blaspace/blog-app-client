@@ -1,10 +1,13 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import AllContext from "../contexts/AllContext";
+import BlogContext from "../contexts/BlogContext";
+import Popup from "../component/Popup";
 
 function EditProfile() {
   const navigate = useNavigate();
-  const { uri, user } = useContext(AllContext);
+  const { uri } = useContext(AllContext);
+  const { users } = useContext(BlogContext);
   const [errorMessage, setErrorMessage] = useState(null);
   const params = useParams();
   const bioRef = useRef();
@@ -19,12 +22,15 @@ function EditProfile() {
   const [school, setSchool] = useState();
 
   useEffect(() => {
-    setBio(user?.bio);
-    setCity(user?.city);
-    setJob(user?.job);
-    setState(user?.state);
-    setSchool(user?.school);
-  }, []);
+    const newuser = users?.filter((value) => {
+      return value?._id === params.id;
+    });
+    setBio(newuser[0]?.bio);
+    setState(newuser[0]?.state);
+    setJob(newuser[0]?.job);
+    setCity(newuser[0]?.city);
+    setSchool(newuser[0]?.school);
+  }, [users]);
 
   const handleSubmit = () => {
     const obj = {
@@ -39,8 +45,12 @@ function EditProfile() {
       method: "POST",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify(obj),
-    }).then(() => {
-      navigate(`../profile/${user._id}`);
+    }).then((res) => {
+      if (res.ok) {
+        navigate(`../profile/${params.id}`);
+      } else {
+        setErrorMessage("Error, please try again");
+      }
     });
   };
 
@@ -105,6 +115,7 @@ function EditProfile() {
           </button>
         </div>
       </form>
+      <Popup errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
     </div>
   );
 }

@@ -20,6 +20,7 @@ function Newblog() {
     inputref.current.style.height = "100px";
     btnref.current.style.display = "block";
     setNewBlog(e.target.value);
+    setMessage("");
     if (e.target.value === "") {
       btnref.current.style.display = "none";
       inputref.current.style.height = "40px";
@@ -68,8 +69,10 @@ function Newblog() {
         }
       })
       .then((data) => {
-        setBlog([...blog, data]);
-        setMessage("blog posted");
+        if (data) {
+          setBlog([...blog, data]);
+          setMessage("blog posted");
+        }
         setNewBlog("");
         setImageName("");
       })

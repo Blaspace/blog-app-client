@@ -28,7 +28,7 @@ function SinglBlog() {
   const [bloger, setBloger] = useState([]);
 
   const sblog = blog?.filter((value) => {
-    return value._id === params.id;
+    return value?._id === params.id;
   });
   useEffect(() => {
     setLoading(true);
@@ -99,7 +99,7 @@ function SinglBlog() {
   //getting the bloger of the blog
   useEffect(() => {
     if (singleBlog) {
-      setBloger(users.filter((i) => i._id === singleBlog.userid));
+      setBloger(users.filter((i) => i?._id === singleBlog?.userid));
     }
   }, [singleBlog]);
   return (
@@ -122,7 +122,7 @@ function SinglBlog() {
                     )
                   )}`}
                   alt="profile"
-                  onClick={() => navigate(`../profile/${bloger._id}`)}
+                  onClick={() => navigate(`../profile/${bloger?._id}`)}
                 />
               ) : (
                 <CgProfile style={{ fontSize: "40px" }} />
@@ -137,7 +137,7 @@ function SinglBlog() {
               </span>
             </div>
             <div className="allblogs">
-              <p className="blog-text">{singleBlog.blog}</p>
+              <p className="blog-text">{singleBlog?.blog}</p>
               {singleBlog?.blogimage && (
                 <div className="single-blog-image">
                   <img

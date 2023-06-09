@@ -15,12 +15,14 @@ function AllBlog() {
       ) : (
         blog?.map((value) => {
           //getting the bloger for each of the blog
-          const bloger = users?.filter((person) => person._id === value.userid);
+          const bloger = users?.filter(
+            (person) => person?._id === value?.userid
+          );
           return (
-            <div className="blog-con" key={value._id}>
+            <div className="blog-con" key={value?._id}>
               <div
                 className="blog-profile"
-                onClick={() => navigate(`../profile/${value.userid}`)}
+                onClick={() => navigate(`../profile/${value?.userid}`)}
               >
                 {/*checking if the bloger has any image*/}
                 {bloger[0]?.image && Object.keys(bloger[0]?.image).length ? (
@@ -31,16 +33,16 @@ function AllBlog() {
                       )
                     )}`}
                     alt="profile"
-                    onClick={() => navigate(`../profile/${bloger._id}`)}
+                    onClick={() => navigate(`../profile/${bloger?._id}`)}
                   />
                 ) : (
                   <CgProfile
                     className="profile-icon"
-                    onClick={() => navigate(`../profile/${value.userid}`)}
+                    onClick={() => navigate(`../profile/${value?.userid}`)}
                   />
                 )}
                 <span>
-                  <p style={{ fontWeight: "bolder" }}>{value.username}</p>
+                  <p style={{ fontWeight: "bolder" }}>{value?.username}</p>
                   <p style={{ color: "grey", fontSize: "smaller" }}>
                     {bloger[0]?.email}
                   </p>
@@ -48,11 +50,11 @@ function AllBlog() {
               </div>
               <div
                 className="allblogs"
-                onClick={() => navigate(`/singleblog/${value._id}`)}
+                onClick={() => navigate(`/singleblog/${value?._id}`)}
               >
                 <p className="blog-text">
-                  {value.blog && value.blog.slice(0, 200)}
-                  {value.blog && value.blog.length > 200 && "..."}
+                  {value?.blog && value?.blog.slice(0, 200)}
+                  {value?.blog && value?.blog?.length > 200 && "..."}
                 </p>
                 {value?.blogimage && (
                   <div className="blog-image">
@@ -66,7 +68,7 @@ function AllBlog() {
                     />
                   </div>
                 )}
-                <p className="blog-date">{value.date}</p>
+                <p className="blog-date">{value?.date}</p>
               </div>
             </div>
           );

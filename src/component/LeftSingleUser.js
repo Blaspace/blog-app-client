@@ -85,7 +85,7 @@ function LeftSingleUser() {
         {user?._id === singleUser[0]?._id && (
           <>
             <button
-              onClick={() => navigate(`../editprofile/${singleUser?._id}`)}
+              onClick={() => navigate(`../editprofile/${params.id}`)}
               style={{ background: "#cfd1cf" }}
             >
               Edit Details

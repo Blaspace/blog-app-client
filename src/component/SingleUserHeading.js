@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { useParams } from "react-router";
 import AllContext from "../contexts/AllContext";
@@ -11,8 +11,12 @@ function SingleUserHeading() {
   const { user, uri } = useContext(AllContext);
   const [errorMessage, setErrorMessage] = useState(null);
   const { users } = useContext(BlogContext);
+  const [singleUser, setSingleUser] = useState("");
 
-  const singleUser = users.filter((user) => user._id === params.id);
+  useEffect(() => {
+    const foundUser = users.filter((user) => user._id === params.id);
+    setSingleUser(foundUser);
+  }, [users]);
   const profilrUpload = (e) => {
     const formData = new FormData();
     formData.append("profile", e.target.files[0]);
