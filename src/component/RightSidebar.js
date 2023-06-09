@@ -26,7 +26,7 @@ function RightSidebar() {
     <ul className="right-sidebar">
       {!Users?.length ? (
         <SkeletonRightSideBar />
-      ) : Users[0]?.image?.data?.data ? (
+      ) : Users?.length ? (
         Users?.slice(0, 6).map((value) => {
           return (
             <li
