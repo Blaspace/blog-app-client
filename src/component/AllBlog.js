@@ -3,10 +3,13 @@ import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router";
 import AllBogSkeleton from "./AllBogSkeleton";
 import BlogContext from "../contexts/BlogContext";
+import AllContext from "../contexts/AllContext";
 
 function AllBlog() {
   const navigate = useNavigate();
   const { blog, users } = useContext(BlogContext);
+  const { uri } = useContext(AllContext);
+
   return (
     <>
       {!blog?.length && !users?.length ? (
@@ -25,13 +28,9 @@ function AllBlog() {
                 onClick={() => navigate(`../profile/${value?.userid}`)}
               >
                 {/*checking if the bloger has any image*/}
-                {bloger[0]?.image && Object.keys(bloger[0]?.image).length ? (
+                {bloger[0]?.image ? (
                   <img
-                    src={`data:image;base64,${btoa(
-                      String.fromCharCode(
-                        ...new Uint8Array(bloger[0]?.image?.data?.data)
-                      )
-                    )}`}
+                    src={`${uri}/profile/${bloger[0]?.image}`}
                     alt="profile"
                     onClick={() => navigate(`../profile/${bloger?._id}`)}
                   />
@@ -42,7 +41,9 @@ function AllBlog() {
                   />
                 )}
                 <span>
-                  <p style={{ fontWeight: "bolder" }}>{value?.username}</p>
+                  <p style={{ fontWeight: "bolder" }}>
+                    {value?.username?.toUpperCase()}
+                  </p>
                   <p style={{ color: "grey", fontSize: "smaller" }}>
                     {bloger[0]?.email}
                   </p>
@@ -56,14 +57,10 @@ function AllBlog() {
                   {value?.blog && value?.blog.slice(0, 200)}
                   {value?.blog && value?.blog?.length > 200 && "..."}
                 </p>
-                {value?.blogimage && (
+                {value?.blogimagename && (
                   <div className="blog-image">
                     <img
-                      src={`data:image;base64,${btoa(
-                        String.fromCharCode(
-                          ...new Uint8Array(value?.blogimage?.data?.data)
-                        )
-                      )}`}
+                      src={`${uri}/blogimage/${value.blogimagename}`}
                       alt="blogimage"
                     />
                   </div>

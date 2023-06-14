@@ -8,7 +8,7 @@ import BlogContext from "../contexts/BlogContext";
 function RightSidebar() {
   const [Users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const { user } = useContext(AllContext);
+  const { user, uri } = useContext(AllContext);
   const { users } = useContext(BlogContext);
 
   useEffect(() => {
@@ -35,13 +35,9 @@ function RightSidebar() {
                 handleProfile(value._id);
               }}
             >
-              {value?.image !== undefined ? (
+              {value?.image ? (
                 <img
-                  src={`data:image;base64,${btoa(
-                    String.fromCharCode(
-                      ...new Uint8Array(value?.image?.data?.data)
-                    )
-                  )}`}
+                  src={`${uri}/profile/${value?.image}`}
                   alt="profile"
                   onClick={() => navigate(`../profile/${user?._id}`)}
                 />
@@ -51,7 +47,7 @@ function RightSidebar() {
                   onClick={() => navigate(`../profile/${value.userid}`)}
                 />
               )}
-              <span>{value?.username}</span>
+              <span>{value?.username?.toUpperCase()}</span>
             </li>
           );
         })

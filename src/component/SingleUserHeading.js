@@ -42,15 +42,8 @@ function SingleUserHeading() {
       <Popup errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
       <header className="profile-header">
         <div className="profile-img">
-          {singleUser?.length && singleUser[0]?.image?.data ? (
-            <img
-              src={`data:image;base64,${btoa(
-                String.fromCharCode(
-                  ...new Uint8Array(singleUser[0]?.image?.data?.data)
-                )
-              )}`}
-              alt="profile"
-            />
+          {singleUser?.length && singleUser[0]?.image ? (
+            <img src={`${uri}/profile/${singleUser[0]?.image}`} alt="profile" />
           ) : (
             <CgProfile className="user-profile-icon" />
           )}
@@ -65,7 +58,7 @@ function SingleUserHeading() {
             </span>
           )}
           <p style={{ fontSize: "20px" }}>
-            {singleUser && singleUser[0]?.username}
+            {singleUser && singleUser[0]?.username?.toUpperCase()}
           </p>
         </div>
       </header>

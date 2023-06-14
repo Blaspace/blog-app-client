@@ -120,13 +120,9 @@ function Newblog() {
                   width={"50px"}
                   style={{ marginRight: "10px" }}
                 />
-              ) : user?.image && Object.keys(user?.image).length !== 0 ? (
+              ) : user?.image ? (
                 <img
-                  src={`data:image;base64,${btoa(
-                    String.fromCharCode(
-                      ...new Uint8Array(user?.image?.data?.data)
-                    )
-                  )}`}
+                  src={`${uri}/profile/${user?.image}`}
                   alt="profile"
                   onClick={() => navigate(`../profile/${user?._id}`)}
                 />
@@ -141,6 +137,7 @@ function Newblog() {
               type="text"
               placeholder="Create a blog"
               ref={inputref}
+              name="blog"
               onClick={() => change()}
               onChange={(e) => typing(e)}
               value={newblog}

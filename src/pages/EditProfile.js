@@ -66,6 +66,7 @@ function EditProfile() {
             onChange={(e) => setBio(e.target.value)}
             ref={bioRef}
             value={bio}
+            name="bio"
           />
         </span>
         <span>
@@ -76,6 +77,7 @@ function EditProfile() {
             onChange={(e) => setState(e.target.value)}
             ref={stateRef}
             value={state}
+            name="state"
           />
         </span>
         <span>
@@ -86,6 +88,7 @@ function EditProfile() {
             onChange={(e) => setJob(e.target.value)}
             ref={jobRef}
             value={job}
+            name="job"
           />
         </span>
         <span>
@@ -96,6 +99,7 @@ function EditProfile() {
             onChange={(e) => setCity(e.target.value)}
             ref={cityRef}
             value={city}
+            name="city"
           />
         </span>
         <span>
@@ -106,6 +110,7 @@ function EditProfile() {
             onChange={(e) => setSchool(e.target.value)}
             ref={schoolRef}
             value={school}
+            name="school"
           />
         </span>
         <div>

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import Skeleton from "react-loading-skeleton";
 
 function LeftSideBar() {
-  const { user, logOut } = useContext(AllContext);
+  const { user, logOut, uri } = useContext(AllContext);
   const navigate = useNavigate();
   return (
     <>
@@ -15,17 +15,13 @@ function LeftSideBar() {
           className="left-sidebar-header"
           onClick={() => navigate(`../profile/${user._id}`)}
         >
-          {user?.image && Object.keys(user?.image).length !== 0 ? (
+          {user?.image ? (
             <>
               {!user ? (
                 <Skeleton circle height={"60px"} width={"60px"} />
               ) : (
                 <img
-                  src={`data:image;base64,${btoa(
-                    String.fromCharCode(
-                      ...new Uint8Array(user?.image?.data?.data)
-                    )
-                  )}`}
+                  src={`${uri}/profile/${user.image}`}
                   alt="profile"
                   onClick={() => navigate(`../profile/${user._id}`)}
                 />
@@ -50,7 +46,7 @@ function LeftSideBar() {
               />
             ) : (
               <>
-                {user?.name}
+                {user?.name?.toUpperCase()}
                 <br />
                 <span style={{ color: "gray" }}>{user?.email}</span>
               </>

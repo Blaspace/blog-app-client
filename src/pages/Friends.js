@@ -8,7 +8,7 @@ import BlogContext from "../contexts/BlogContext";
 function Friends() {
   const [newUsers, setNewUsers] = useState([]);
   const navigate = useNavigate();
-  const { user } = useContext(AllContext);
+  const { user, uri } = useContext(AllContext);
   const { users } = useContext(BlogContext);
 
   useEffect(() => {
@@ -41,19 +41,12 @@ function Friends() {
                 }}
               >
                 {value.image ? (
-                  <img
-                    src={`data:image;base64,${btoa(
-                      String.fromCharCode(
-                        ...new Uint8Array(value.image.data.data)
-                      )
-                    )}`}
-                    alt="profile"
-                  />
+                  <img src={`${uri}/profile/${value?.image}`} alt="profile" />
                 ) : (
                   <CgProfile style={{ fontSize: "50px" }} />
                 )}
                 <p>
-                  <span>{value.username}</span>
+                  <span>{value?.username?.toUpperCase()}</span>
                   <span style={{ color: "gray" }}>{value.email}</span>
                 </p>
               </li>

@@ -49,6 +49,7 @@ function Signup() {
             id="userName"
             onChange={(e) => setUsername(e.target.value)}
             placeholder="user name"
+            name="userName"
           />
           <br />
           <label htmlFor="email">email:</label>
@@ -58,6 +59,7 @@ function Signup() {
             id="email"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="email"
+            name="email"
           />
           <br />
           <label htmlFor="pasword">pasword:</label>
@@ -67,6 +69,7 @@ function Signup() {
             id="pasword"
             onChange={(e) => setPassword(e.target.value)}
             placeholder="password"
+            name="password"
           />
           <br />
           <label htmlFor="state">state of origin:</label>
@@ -76,6 +79,7 @@ function Signup() {
             id="state"
             onChange={(e) => setState(e.target.value)}
             placeholder="state of origin"
+            name="state"
           />
           <br />
           <label htmlFor="city">City:</label>
@@ -85,6 +89,7 @@ function Signup() {
             id="city"
             onChange={(e) => setCity(e.target.value)}
             placeholder="your city"
+            name="city"
           />
           <br />
           <br />

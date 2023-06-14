@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import Skeleton from "react-loading-skeleton";
 
 function Nav() {
-  const { user } = useContext(AllContext);
+  const { user, uri } = useContext(AllContext);
   const navigate = useNavigate();
   return (
     <div className="nav">
@@ -25,7 +25,7 @@ function Nav() {
         className="nav-profile"
         onClick={() => navigate(`../profile/${user?._id}`)}
       >
-        {user?.image && Object.keys(user?.image).length !== 0 ? (
+        {user?.image ? (
           <>
             {!user ? (
               <Skeleton
@@ -37,11 +37,7 @@ function Nav() {
               />
             ) : (
               <img
-                src={`data:image;base64,${btoa(
-                  String.fromCharCode(
-                    ...new Uint8Array(user?.image?.data?.data)
-                  )
-                )}`}
+                src={`${uri}/profile/${user?.image}`}
                 alt="profile"
                 onClick={() => navigate(`../profile/${user?._id}`)}
               />
@@ -74,7 +70,7 @@ function Nav() {
               highlightColor="#ecf3ff"
             />
           ) : (
-            user?.name
+            user?.name?.toUpperCase()
           )}
         </h4>
       </div>

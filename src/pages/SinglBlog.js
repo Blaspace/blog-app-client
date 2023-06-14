@@ -1,64 +1,29 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import prof from "../utils/profile.jpg";
 import { CgProfile } from "react-icons/cg";
 import AllContext from "../contexts/AllContext";
-import Loading from "../component/Loading";
 import Popup from "../component/Popup";
 import AllBogSkeleton from "../component/AllBogSkeleton";
+import BlogContext from "../contexts/BlogContext";
 
 function SinglBlog() {
-  const {
-    user,
-    uri,
-    loading,
-    setLoading,
-    errorMesage,
-    setErrorMessage,
-    blog,
-    accesstoken,
-  } = useContext(AllContext);
+  const { user, uri } = useContext(AllContext);
+  const { users, blog, setBlog } = useContext(BlogContext);
+  const [errorMesage, , setErrorMessage] = useState(null);
   const params = useParams();
-  const [users, setUsers] = useState([]);
-  const [singleBlog, setSinglBlog] = useState({});
+  const [singleBlog, setSingleBlog] = useState([]);
   const [text, setText] = useState();
   const navigate = useNavigate();
   const formRef = useRef();
   const editRef = useRef();
   const [bloger, setBloger] = useState([]);
 
-  const sblog = blog?.filter((value) => {
-    return value?._id === params.id;
-  });
   useEffect(() => {
-    setLoading(true);
-    fetch(`${uri}/singleblog/${params.id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ accesstoken }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setSinglBlog(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        navigate("../../");
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch(`${uri}/users`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ accesstoken }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data);
-      });
-  }, []);
+    const sblog = blog?.filter((value) => {
+      return value?._id === params.id;
+    });
+    setSingleBlog(sblog);
+  }, [blog]);
 
   const handleEdit = () => {
     formRef.current.style.display = "block";
@@ -66,18 +31,20 @@ function SinglBlog() {
   };
 
   const handleDelete = () => {
-    setLoading(true);
     fetch(`${uri}/deleteblog/${params.id}`, {
       method: "POST",
     })
-      .then(() => {
-        setLoading(false);
+      .then((data) => {
+        const newBlogs = blog.filter((value) => {
+          return value?._id !== data?._id;
+        });
+        setBlog(newBlogs);
         navigate("../../blog");
       })
       .catch((err) => console.log(err));
   };
+
   const handleUpdate = () => {
-    setLoading(true);
     fetch(`${uri}/editblog/${params.id}`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
@@ -85,42 +52,36 @@ function SinglBlog() {
     })
       .then((res) => {
         if (res.ok) {
-          setLoading(false);
           navigate("../../blog");
         } else {
           setErrorMessage("something went wrong");
         }
       })
       .catch((err) => {
-        setLoading(false);
         setErrorMessage("something went wrong");
       });
   };
   //getting the bloger of the blog
   useEffect(() => {
-    if (singleBlog) {
-      setBloger(users.filter((i) => i?._id === singleBlog?.userid));
-    }
+    const blogUser = users?.filter((i) => i?._id === singleBlog[0]?.userid);
+    setBloger(blogUser);
   }, [singleBlog]);
+
   return (
     <div className="single-blog-con">
       <div className="single-blog">
-        {loading ? (
+        {!singleBlog?.length ? (
           <AllBogSkeleton cards={1} />
         ) : (
           <>
             <div
               className="blog-profile"
-              onClick={() => navigate(`../profile/${singleBlog?.userid}`)}
+              onClick={() => navigate(`../profile/${singleBlog[0]?.userid}`)}
             >
               {/*displaying the blogers image */}
               {bloger?.length && bloger[0]?.image ? (
                 <img
-                  src={`data:image;base64,${btoa(
-                    String.fromCharCode(
-                      ...new Uint8Array(bloger[0]?.image?.data?.data)
-                    )
-                  )}`}
+                  src={`${uri}/blogimage/${bloger[0]?.image}`}
                   alt="profile"
                   onClick={() => navigate(`../profile/${bloger?._id}`)}
                 />
@@ -129,7 +90,9 @@ function SinglBlog() {
               )}
               <span>
                 <p style={{ fontWeight: "bolder" }}>
-                  {singleBlog?.username ? singleBlog?.username : "no username"}
+                  {singleBlog[0]?.username
+                    ? singleBlog[0]?.username
+                    : "no username"}
                 </p>
                 <p style={{ fontSize: "smaller", color: "grey" }}>
                   {bloger[0]?.email ? bloger[0]?.email : "no email"}
@@ -137,20 +100,16 @@ function SinglBlog() {
               </span>
             </div>
             <div className="allblogs">
-              <p className="blog-text">{singleBlog?.blog}</p>
-              {singleBlog?.blogimage && (
+              <p className="blog-text">{singleBlog[0]?.blog}</p>
+              {singleBlog[0]?.blogimagename && (
                 <div className="single-blog-image">
                   <img
-                    src={`data:image;base64,${btoa(
-                      String.fromCharCode(
-                        ...new Uint8Array(singleBlog?.blogimage?.data?.data)
-                      )
-                    )}`}
+                    src={`${uri}/blogimage/${singleBlog[0]?.blogimagename}`}
                     alt="blogimage"
                   />
                 </div>
               )}
-              <p className="blog-date">{singleBlog?.date}</p>
+              <p className="blog-date">{singleBlog[0]?.date}</p>
             </div>
             <form
               className="edit-input"
@@ -166,9 +125,9 @@ function SinglBlog() {
             </form>
             <div className="single-blog-edit">
               <button onClick={() => navigate("../blog")}>
-                {singleBlog?.userid === user?._id ? "cancle" : "Back"}
+                {singleBlog[0]?.userid === user?._id ? "cancle" : "Back"}
               </button>
-              {singleBlog?.userid === user?._id && (
+              {singleBlog[0]?.userid === user?._id && (
                 <>
                   {" "}
                   <button onClick={handleDelete}>Delete Blog</button>
@@ -176,6 +135,7 @@ function SinglBlog() {
                 </>
               )}
             </div>
+            <br />
           </>
         )}
       </div>
