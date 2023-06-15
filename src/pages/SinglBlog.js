@@ -27,15 +27,16 @@ function SinglBlog() {
 
   const handleEdit = () => {
     formRef.current.style.display = "block";
-    editRef.current.value = singleBlog.blog;
+    editRef.current.value = singleBlog[0]?.blog;
   };
 
   const handleDelete = () => {
     fetch(`${uri}/deleteblog/${params.id}`, {
       method: "POST",
     })
+      .then((res) => res.json())
       .then((data) => {
-        const newBlogs = blog.filter((value) => {
+        const newBlogs = blog?.filter((value) => {
           return value?._id !== data?._id;
         });
         setBlog(newBlogs);
