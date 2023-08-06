@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+ React, { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
 import { CgProfile } from "react-icons/cg";
@@ -58,9 +58,7 @@ function Newblog() {
       .then((res) => {
         if (res.ok) {
           return res.json();
-        } else if (res.status === 400) {
-          setMessage("image file too large");
-        } else if (res.status === 402) {
+        } else if (res.status === 402 || req.status === 400) {
           setMessage("blog not posted try again");
         } else if (res.status === 500) {
           setMessage("server error");
