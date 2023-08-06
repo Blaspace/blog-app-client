@@ -43,14 +43,19 @@ function Newblog() {
 
     const date = new Date();
     const formData = new FormData();
-    if (user.image !== undefined) {
+    if (image) {
       formData.append("profile", image);
       formData.append("date", date);
       formData.append("blog", newblog);
       formData.append("username", user.name);
       formData.append("userid", user._id);
-    }
-    fetch(`${uri}/newblog`, {
+    } else {
+formData.append("date", date);
+      formData.append("blog", newblog);
+      formData.append("username", user.name);
+      formData.append("userid", user._id); 
+}
+   fetch(`${uri}/newblog`, {
       method: "POST",
       dataType: "jsonp",
       body: formData,
