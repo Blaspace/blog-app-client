@@ -1,3 +1,4 @@
+
 import React, { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import AllContext from "../contexts/AllContext";
@@ -82,7 +83,7 @@ formData.append("date", date);
       .catch((err) => console.error(err))
       .finally(() => {
         btnref.current.disabled = false;
-        btnref.current.style.backgroundColor = "navy";
+       setImage(null) btnref.current.style.backgroundColor = "navy";
         btnref.current.innerText = "submit";
         btnref.current.style.display = "none";
         inputref.current.style.height = "40px";
