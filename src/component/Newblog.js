@@ -83,7 +83,9 @@ formData.append("date", date);
       .catch((err) => console.error(err))
       .finally(() => {
         btnref.current.disabled = false;
-       setImage(null) btnref.current.style.backgroundColor = "navy";
+       setImage(null); 
+
+btnref.current.style.backgroundColor = "navy";
         btnref.current.innerText = "submit";
         btnref.current.style.display = "none";
         inputref.current.style.height = "40px";
