@@ -63,7 +63,7 @@ formData.append("date", date);
       .then((res) => {
         if (res.ok) {
           return res.json();
-        } else if (res.status === 402 || req.status === 400) {
+        } else if (res.status === 402 || res.status === 400) {
           setMessage("blog not posted try again");
         } else if (res.status === 500) {
           setMessage("server error");
