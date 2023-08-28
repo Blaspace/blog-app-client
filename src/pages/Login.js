@@ -71,8 +71,9 @@ function Login() {
           <br />
           <br />
           <p style={{ fontSize: "16px", fontWeight: "lighter" }}>
-            password: demo1234, email: demo@gmail.com
-          </p>
+           email: demo@gmail.com, <br />
+            password: demo1234
+ </p>
           <br />
           <span>
             <button onClick={() => handleSubmit()}>Login</button>
