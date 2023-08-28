@@ -41,8 +41,8 @@ function AllBlog() {
                   />
                 )}
                 <span>
-                  <p style={{ fontWeight: "bolder" }}>
-                    {value?.username?.toUpperCase()}
+                  <p style={{ fontWeight: "450" }}>
+                    {value?.username}
                   </p>
                   <p style={{ color: "grey", fontSize: "smaller" }}>
                     {bloger[0]?.email}
