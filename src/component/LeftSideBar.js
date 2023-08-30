@@ -46,7 +46,7 @@ function LeftSideBar() {
               />
             ) : (
               <>
-                {user?.name?.toUpperCase()}
+                {user?.name}
                 <br />
                 <span style={{ color: "gray" }}>{user?.email}</span>
               </>
