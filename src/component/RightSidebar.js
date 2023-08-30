@@ -47,7 +47,7 @@ function RightSidebar() {
                   onClick={() => navigate(`../profile/${value.userid}`)}
                 />
               )}
-              <span>{value?.username?.toUpperCase()}</span>
+              <span>{value?.username}</span>
             </li>
           );
         })
