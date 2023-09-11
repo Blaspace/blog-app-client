@@ -126,8 +126,8 @@
   z-index: 5;
 }
 .nav img {
-  height: 35px;
-  width: 35px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
 }
 .nav h1 {
@@ -217,7 +217,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: 12px;
+  margin-top: 15px;
 }
 .newBlog-input {
   display: flex;
@@ -290,8 +290,8 @@
   border: 1px solid lightgray;
 }
 .newblog form img {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   margin-right: 10px;
   border-radius: 50%;
   cursor: pointer;
@@ -355,7 +355,6 @@
   flex-direction: column;
   width: 100%;
   border-radius: 15px;
-  margin-top: 5px;
 }
 .single-blog-edit {
   display: flex;
@@ -444,7 +443,7 @@
   background-color: #ecf3ff;
   padding: 10px;
   border-radius: 5px;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 .allComment h4 {
   display: flex;
@@ -466,8 +465,8 @@
   cursor: pointer;
 }
 .blog-profile img {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   margin-right: 10px;
   border-radius: 50%;
   cursor: pointer;
@@ -550,8 +549,8 @@
   width: 100%;
 }
 .right-sidebar img {
-  height: 40px;
-  width: 40px;
+  height: 50px;
+  width: 50px;
   border-radius: 50%;
   margin-right: 10px;
 }
@@ -743,10 +742,13 @@
   font-weight: bolder;
 }
 .EditProfile form button {
-  padding: 5px;
-  font-size: larger;
-  font-weight: bolder;
-  width: 80px;
+  padding: 10px;
+  width: 30%;
+  border: none;
+  color: #ecf3ff;
+  background-color: black;
+  border-radius: 15px;
+  margin-bottom: 10px;
 }
 /* friends page*/
 .friends-icon {
@@ -882,6 +884,9 @@
   }
   .alllikes {
     display: block;
+  }
+  .blog-con {
+    margin-top: 5px;
   }
   .blog-profile {
     border-radius: 10px 10px 0 0;

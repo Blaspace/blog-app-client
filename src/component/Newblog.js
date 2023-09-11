@@ -4,6 +4,7 @@ import { CgProfile } from "react-icons/cg";
 import Skeleton from "react-loading-skeleton";
 import { useSelector, useDispatch } from "react-redux";
 import { setBlog } from "../redux/slice/BlogSlice";
+import { MdAddPhotoAlternate } from "react-icons/md";
 
 function Newblog() {
   const btnref = useRef();
@@ -157,13 +158,13 @@ function Newblog() {
         </form>
         <div className="newblog-base">
           <div>
-            <h3>
+            <h3 style={{ display: "flex", alignItems: "center" }}>
               <input
                 type="file"
                 onChange={(e) => imgChage(e)}
                 accept="image/*"
               />
-              add image
+              <MdAddPhotoAlternate size={30} /> <span>add image</span>
             </h3>
           </div>
         </div>
