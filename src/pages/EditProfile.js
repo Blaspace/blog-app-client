@@ -1,13 +1,25 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
-import AllContext from "../contexts/AllContext";
-import BlogContext from "../contexts/BlogContext";
 import Popup from "../component/Popup";
+import { useSelector, useDispatch } from "react-redux";
+import { getuser } from "../redux/slice/AuthSlice";
+import { getUsers } from "../redux/slice/BlogSlice";
 
 function EditProfile() {
   const navigate = useNavigate();
-  const { uri } = useContext(AllContext);
-  const { users } = useContext(BlogContext);
+  const { uri, user } = useSelector((state) => state.AuthSlice);
+  const { users } = useSelector((state) => state.BlogSlice);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!user?.length) {
+      dispatch(getuser());
+    }
+  }, []);
+  useEffect(() => {
+    if (!users?.length) {
+      dispatch(getUsers());
+    }
+  }, []);
   const [errorMessage, setErrorMessage] = useState(null);
   const params = useParams();
   const bioRef = useRef();

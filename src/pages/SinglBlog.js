@@ -1,22 +1,65 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { CgProfile } from "react-icons/cg";
-import AllContext from "../contexts/AllContext";
 import Popup from "../component/Popup";
 import AllBogSkeleton from "../component/AllBogSkeleton";
-import BlogContext from "../contexts/BlogContext";
+import { useSelector, useDispatch } from "react-redux";
+import { getuser } from "../redux/slice/AuthSlice";
+import CommentBox from "../component/CommentBox";
+
+import {
+  setBlog,
+  getBlog,
+  getUsers,
+  getComment,
+  getLikes,
+} from "../redux/slice/BlogSlice";
+import RightSideBar from "../component/RightSidebar";
+import LeftSideBar from "../component/LeftSideBar";
+import AllComment from "../component/AllComment";
+import AllLikes from "../component/AllLikes";
 
 function SinglBlog() {
-  const { user, uri } = useContext(AllContext);
-  const { users, blog, setBlog } = useContext(BlogContext);
+  const { user, uri } = useSelector((state) => state.AuthSlice);
+  const { users, blog, comment, like } = useSelector(
+    (state) => state.BlogSlice
+  );
   const [errorMesage, , setErrorMessage] = useState(null);
   const params = useParams();
   const [singleBlog, setSingleBlog] = useState([]);
   const [text, setText] = useState();
+  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
   const formRef = useRef();
   const editRef = useRef();
   const [bloger, setBloger] = useState([]);
+  const [commenterId, setCommenterId] = useState(null);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!user) {
+      dispatch(getuser());
+    }
+  }, []);
+  useEffect(() => {
+    if (!blog?.length) {
+      dispatch(getBlog());
+    }
+  }, []);
+  useEffect(() => {
+    if (!users?.length) {
+      dispatch(getUsers());
+    }
+  }, []);
+  useEffect(() => {
+    if (!comment?.length) {
+      dispatch(getComment());
+    }
+  }, []);
+  useEffect(() => {
+    if (!like?.length) {
+      dispatch(getLikes());
+    }
+  }, []);
 
   useEffect(() => {
     const sblog = blog?.filter((value) => {
@@ -39,7 +82,7 @@ function SinglBlog() {
         const newBlogs = blog?.filter((value) => {
           return value?._id !== data?._id;
         });
-        setBlog(newBlogs);
+        dispatch(setBlog(newBlogs));
         navigate("../../blog");
       })
       .catch((err) => console.log(err));
@@ -69,22 +112,34 @@ function SinglBlog() {
   }, [singleBlog]);
 
   return (
-    <div className="single-blog-con">
-      <div className="single-blog">
+    <div className="blog">
+      <div className="left-side">
+        <br />
+        <br />
+        <LeftSideBar />
+      </div>
+      <main className="main" style={{ flexDirection: "column" }}>
+        <br />
+        <br />
+        <br />
+        <br />
         {!singleBlog?.length ? (
           <AllBogSkeleton cards={1} />
         ) : (
           <>
             <div
               className="blog-profile"
+              style={{ width: "100%" }}
               onClick={() => navigate(`../profile/${singleBlog[0]?.userid}`)}
             >
               {/*displaying the blogers image */}
               {bloger?.length && bloger[0]?.image ? (
                 <img
-                  src={`${uri}/blogimage/${bloger[0]?.image}`}
+                  src={`${uri}/profile/${bloger[0]?._id}`}
                   alt="profile"
-                  onClick={() => navigate(`../profile/${bloger?._id}`)}
+                  onClick={() =>
+                    navigate(`../profile/${singleBlog[0]?.userid}`)
+                  }
                 />
               ) : (
                 <CgProfile style={{ fontSize: "40px" }} />
@@ -105,12 +160,12 @@ function SinglBlog() {
               {singleBlog[0]?.blogimagename && (
                 <div className="single-blog-image">
                   <img
-                    src={`${uri}/blogimage/${singleBlog[0]?.blogimagename}`}
+                    src={`${uri}/blogimage/${singleBlog[0]?._id}`}
                     alt="blogimage"
                   />
                 </div>
               )}
-              <p className="blog-date">{singleBlog[0]?.date}</p>
+              <p className="blog-date">{singleBlog[0]?.date.slice(0, 10)}</p>
             </div>
             <form
               className="edit-input"
@@ -122,11 +177,11 @@ function SinglBlog() {
                 onChange={(e) => setText(e.target.value)}
                 ref={editRef}
               />
-              <button onClick={handleUpdate}>updata</button>
+              <button onClick={handleUpdate}>Updata</button>
             </form>
-            <div className="single-blog-edit">
+            <div className="single-blog-edit" style={{ width: "100%" }}>
               <button onClick={() => navigate("../blog")}>
-                {singleBlog[0]?.userid === user?._id ? "cancle" : "Back"}
+                {singleBlog[0]?.userid === user?._id ? "Cancle" : "Back"}
               </button>
               {singleBlog[0]?.userid === user?._id && (
                 <>
@@ -136,10 +191,21 @@ function SinglBlog() {
                 </>
               )}
             </div>
-            <br />
+            <AllComment />
           </>
         )}
+      </main>
+      <div className="right-side">
+        <br />
+        <br />
+        <AllLikes />
       </div>
+      <CommentBox
+        blogId={userId}
+        setBlogId={setUserId}
+        commenterId={commenterId}
+        setCommenterId={setCommenterId}
+      />
       {errorMesage && <Popup />}
     </div>
   );

@@ -1,14 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate, useParams } from "react-router";
-import AllContext from "../contexts/AllContext";
+import { useDispatch } from "react-redux";
 import Skeleton from "react-loading-skeleton";
-import BlogContext from "../contexts/BlogContext";
+import { logout, setAccesstoken, setUser } from "../redux/slice/AuthSlice";
+import { useSelector } from "react-redux";
 
 function LeftSingleUser() {
   const params = useParams();
-  const { user, uri, logOut, setAccesstoken } = useContext(AllContext);
-  const { users } = useContext(BlogContext);
+  const { user, uri } = useSelector((state) => state.AuthSlice);
+  const { users } = useSelector((state) => state.BlogSlice);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const singleUser = users.filter((user) => user?._id === params.id);
 
@@ -19,8 +21,12 @@ function LeftSingleUser() {
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({ _id: singleUser?._id }),
     }).then(() => {
-      setAccesstoken("");
+      dispatch(setAccesstoken(null));
     });
+  };
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(setUser(null));
   };
   return (
     <div className="profile-left">
@@ -84,19 +90,13 @@ function LeftSingleUser() {
         </ul>
         {user?._id === singleUser[0]?._id && (
           <>
-            <button
-              onClick={() => navigate(`../editprofile/${params.id}`)}
-              style={{ background: "#cfd1cf" }}
-            >
+            <button onClick={() => navigate(`../editprofile/${params.id}`)}>
               Edit Details
             </button>
-            <button onClick={logOut} style={{ background: "#cfd1cf" }}>
+            <button onClick={handleLogout}>
               <span>log out</span>
             </button>
-            <button
-              onClick={handleDeleteAccount}
-              style={{ background: "#cfd1cf" }}
-            >
+            <button onClick={handleDeleteAccount}>
               <span>close this accout</span>
             </button>
           </>

@@ -11,7 +11,6 @@ import Friends from "./pages/Friends";
 import EditProfile from "./pages/EditProfile";
 import Publicrout from "./component/Publicrout";
 import PersistentLogin from "./component/PersistentLogin";
-import BlogsProvider from "./component/BlogProvider";
 
 function App() {
   return (
@@ -23,14 +22,12 @@ function App() {
         </Route>
 
         <Route element={<PersistentLogin />}>
-          <Route element={<BlogsProvider />}>
-            <Route path="/" element={<Rootrout />}>
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/profile/:id" element={<OthersProfile />} />
-              <Route path="/singleblog/:id" element={<SinglBlog />} />
-              <Route path="/friends" element={<Friends />} />
-              <Route path="/editprofile/:id" element={<EditProfile />} />
-            </Route>
+          <Route path="/" element={<Rootrout />}>
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/profile/:id" element={<OthersProfile />} />
+            <Route path="/singleblog/:id" element={<SinglBlog />} />
+            <Route path="/friends" element={<Friends />} />
+            <Route path="/editprofile/:id" element={<EditProfile />} />
           </Route>
         </Route>
 

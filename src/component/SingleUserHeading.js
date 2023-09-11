@@ -1,16 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { useParams } from "react-router";
-import AllContext from "../contexts/AllContext";
 import { MdCameraAlt } from "react-icons/md";
 import Popup from "./Popup";
-import BlogContext from "../contexts/BlogContext";
+import { useSelector } from "react-redux";
 
 function SingleUserHeading() {
   const params = useParams();
-  const { user, uri } = useContext(AllContext);
+  const { user, uri } = useSelector((state) => state.AuthSlice);
   const [errorMessage, setErrorMessage] = useState(null);
-  const { users } = useContext(BlogContext);
+  const { users } = useSelector((state) => state.BlogSlice);
   const [singleUser, setSingleUser] = useState("");
 
   useEffect(() => {
@@ -43,7 +42,7 @@ function SingleUserHeading() {
       <header className="profile-header">
         <div className="profile-img">
           {singleUser?.length && singleUser[0]?.image ? (
-            <img src={`${uri}/profile/${singleUser[0]?.image}`} alt="profile" />
+            <img src={`${uri}/profile/${singleUser[0]?._id}`} alt="profile" />
           ) : (
             <CgProfile className="user-profile-icon" />
           )}
@@ -53,12 +52,13 @@ function SingleUserHeading() {
                 type="file"
                 name="profile"
                 onChange={(e) => profilrUpload(e)}
+                accept="image/*"
               />
               <MdCameraAlt className="img-upload" />
             </span>
           )}
           <p style={{ fontSize: "20px" }}>
-            {singleUser && singleUser[0]?.username?.toUpperCase()}
+            {singleUser && singleUser[0]?.username}
           </p>
         </div>
       </header>

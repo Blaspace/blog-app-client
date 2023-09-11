@@ -1,16 +1,28 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import AllContext from "../contexts/AllContext";
 import { CgProfile } from "react-icons/cg";
 import FriendsSkeleton from "../component/FriendsSkeleton";
-import BlogContext from "../contexts/BlogContext";
+import { useSelector, useDispatch } from "react-redux";
+import { getuser } from "../redux/slice/AuthSlice";
+import { getUsers } from "../redux/slice/BlogSlice";
 
 function Friends() {
   const [newUsers, setNewUsers] = useState([]);
   const navigate = useNavigate();
-  const { user, uri } = useContext(AllContext);
-  const { users } = useContext(BlogContext);
+  const { user, uri } = useSelector((state) => state.AuthSlice);
+  const { users } = useSelector((state) => state.BlogSlice);
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!user?.length) {
+      dispatch(getuser());
+    }
+  }, []);
+  useEffect(() => {
+    if (!users?.length) {
+      dispatch(getUsers());
+    }
+  }, []);
   useEffect(() => {
     if (users?.length) {
       const otherUsers = users.filter((value) => value._id !== user._id);
@@ -41,12 +53,12 @@ function Friends() {
                 }}
               >
                 {value.image ? (
-                  <img src={`${uri}/profile/${value?.image}`} alt="profile" />
+                  <img src={`${uri}/profile/${value?._id}`} alt="profile" />
                 ) : (
                   <CgProfile style={{ fontSize: "50px" }} />
                 )}
                 <p>
-                  <span>{value?.username?.toUpperCase()}</span>
+                  <span>{value?.username}</span>
                   <span style={{ color: "gray" }}>{value.email}</span>
                 </p>
               </li>

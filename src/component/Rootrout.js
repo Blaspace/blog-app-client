@@ -1,10 +1,10 @@
 import { Outlet, Navigate } from "react-router-dom";
-import React, { useContext } from "react";
+import React from "react";
 import Nav from "./Nav";
-import AllContext from "../contexts/AllContext";
+import { useSelector } from "react-redux";
 
 function Rootrout() {
-  const { accesstoken } = useContext(AllContext);
+  const { accesstoken } = useSelector((state) => state.AuthSlice);
   return (
     <div>
       {accesstoken ? (

@@ -1,15 +1,17 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import AllContext from "../contexts/AllContext";
 import Loading from "../component/Loading";
 import { CgProfile } from "react-icons/cg";
+import { setAccesstoken } from "../redux/slice/AuthSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
-
-  const { setAccesstoken, uri, loading, setLoading } = useContext(AllContext);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { uri } = useSelector((state) => state.AuthSlice);
 
   const handleSubmit = () => {
     setLoading(true);
@@ -28,10 +30,8 @@ function Login() {
           throw new Error("Email and password required");
         }
       })
-      .then((data) => setAccesstoken(data.accesstoken))
-      .catch((err) => {
-        setError(err.message);
-      })
+      .then((data) => dispatch(setAccesstoken(data.accesstoken)))
+      .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   };
 
@@ -71,9 +71,9 @@ function Login() {
           <br />
           <br />
           <p style={{ fontSize: "16px", fontWeight: "lighter" }}>
-           email: demo@gmail.com, <br />
+            email: demo@gmail.com, <br />
             password: demo1234
- </p>
+          </p>
           <br />
           <span>
             <button onClick={() => handleSubmit()}>Login</button>

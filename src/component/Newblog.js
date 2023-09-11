@@ -1,21 +1,21 @@
-
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import AllContext from "../contexts/AllContext";
 import { CgProfile } from "react-icons/cg";
 import Skeleton from "react-loading-skeleton";
-import BlogContext from "../contexts/BlogContext";
+import { useSelector, useDispatch } from "react-redux";
+import { setBlog } from "../redux/slice/BlogSlice";
 
 function Newblog() {
   const btnref = useRef();
   const inputref = useRef();
-  const { user, uri } = useContext(AllContext);
-  const { blog, setBlog } = useContext(BlogContext);
+  const { user, uri } = useSelector((state) => state.AuthSlice);
+  const { blog } = useSelector((state) => state.BlogSlice);
   const [image, setImage] = useState();
   const [imageName, setImageName] = useState();
   const [newblog, setNewBlog] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const typing = (e) => {
     inputref.current.style.height = "100px";
@@ -51,12 +51,12 @@ function Newblog() {
       formData.append("username", user.name);
       formData.append("userid", user._id);
     } else {
-formData.append("date", date);
+      formData.append("date", date);
       formData.append("blog", newblog);
       formData.append("username", user.name);
-      formData.append("userid", user._id); 
-}
-   fetch(`${uri}/newblog`, {
+      formData.append("userid", user._id);
+    }
+    fetch(`${uri}/newblog`, {
       method: "POST",
       dataType: "jsonp",
       body: formData,
@@ -74,7 +74,7 @@ formData.append("date", date);
       })
       .then((data) => {
         if (data) {
-          setBlog([...blog, data]);
+          dispatch(setBlog([data, ...blog]));
           setMessage("blog posted");
         }
         setNewBlog("");
@@ -83,9 +83,9 @@ formData.append("date", date);
       .catch((err) => console.error(err))
       .finally(() => {
         btnref.current.disabled = false;
-       setImage(null); 
+        setImage(null);
 
-btnref.current.style.backgroundColor = "navy";
+        btnref.current.style.backgroundColor = "navy";
         btnref.current.innerText = "submit";
         btnref.current.style.display = "none";
         inputref.current.style.height = "40px";
@@ -128,9 +128,10 @@ btnref.current.style.backgroundColor = "navy";
                 />
               ) : user?.image ? (
                 <img
-                  src={`${uri}/profile/${user?.image}`}
+                  src={`${uri}/profile/${user?._id}`}
                   alt="profile"
                   onClick={() => navigate(`../profile/${user?._id}`)}
+                  style={{ border: "3px solid lightgrey" }}
                 />
               ) : (
                 <CgProfile
@@ -157,7 +158,11 @@ btnref.current.style.backgroundColor = "navy";
         <div className="newblog-base">
           <div>
             <h3>
-              <input type="file" onChange={(e) => imgChage(e)} />
+              <input
+                type="file"
+                onChange={(e) => imgChage(e)}
+                accept="image/*"
+              />
               add image
             </h3>
           </div>

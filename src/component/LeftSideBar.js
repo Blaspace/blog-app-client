@@ -1,13 +1,20 @@
-import React, { useContext } from "react";
-import AllContext from "../contexts/AllContext";
+import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { FaUserFriends } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import Skeleton from "react-loading-skeleton";
+import { useDispatch } from "react-redux";
+import { logout, setUser } from "../redux/slice/AuthSlice";
+import { useSelector } from "react-redux";
 
 function LeftSideBar() {
-  const { user, logOut, uri } = useContext(AllContext);
+  const { user, uri } = useSelector((state) => state.AuthSlice);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(setUser(null));
+  };
   return (
     <>
       <div className="left-sidebar">
@@ -21,9 +28,10 @@ function LeftSideBar() {
                 <Skeleton circle height={"60px"} width={"60px"} />
               ) : (
                 <img
-                  src={`${uri}/profile/${user.image}`}
+                  src={`${uri}/profile/${user._id}`}
                   alt="profile"
                   onClick={() => navigate(`../profile/${user._id}`)}
+                  style={{ border: "3px solid gray" }}
                 />
               )}
             </>
@@ -48,7 +56,9 @@ function LeftSideBar() {
               <>
                 {user?.name}
                 <br />
-                <span style={{ color: "gray" }}>{user?.email}</span>
+                <span style={{ color: "gray", fontSize: "small" }}>
+                  {user?.email}
+                </span>
               </>
             )}
           </p>
@@ -56,13 +66,14 @@ function LeftSideBar() {
         <br />
         <ul className="left-list">
           <li>Red table talk group</li>
-          <li onClick={() => navigate("../friends")}>
+          <li
+            onClick={() => navigate("../friends")}
+            style={{ display: "flex", alignItems: "center" }}
+          >
             <FaUserFriends style={{ fontSize: "30px", marginRight: "10px" }} />
-            <span style={{ fontSize: "larger", marginBottom: "20px" }}>
-              Friends
-            </span>
+            <span>Friends</span>
           </li>
-          <li onClick={logOut} className="logout">
+          <li onClick={handleLogout} className="logout">
             Logout
           </li>
         </ul>

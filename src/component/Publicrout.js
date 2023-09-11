@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import AllContext from "../contexts/AllContext";
+import { useSelector } from "react-redux";
 
 function Publicrout() {
-  const { accesstoken } = useContext(AllContext);
+  const { accesstoken } = useSelector((state) => state.AuthSlice);
   return (
     <div>{!accesstoken ? <Outlet /> : <Navigate to="/blog" replace />}</div>
   );

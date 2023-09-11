@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { FaUserFriends, FaBlog } from "react-icons/fa";
-import AllContext from "../contexts/AllContext";
 import { useNavigate } from "react-router";
 import Skeleton from "react-loading-skeleton";
+import { useSelector } from "react-redux";
 
 function Nav() {
-  const { user, uri } = useContext(AllContext);
+  const { user, uri } = useSelector((state) => state.AuthSlice);
   const navigate = useNavigate();
   return (
     <div className="nav">
@@ -37,9 +37,10 @@ function Nav() {
               />
             ) : (
               <img
-                src={`${uri}/profile/${user?.image}`}
+                src={`${uri}/profile/${user?._id}`}
                 alt="profile"
                 onClick={() => navigate(`../profile/${user?._id}`)}
+                style={{ border: "3px solid lightgrey" }}
               />
             )}
           </>
@@ -70,7 +71,7 @@ function Nav() {
               highlightColor="#ecf3ff"
             />
           ) : (
-            user?.name?.toUpperCase()
+            user?.name
           )}
         </h4>
       </div>

@@ -1,18 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import AllContext from "../contexts/AllContext";
 import { CgProfile } from "react-icons/cg";
 import SkeletonRightSideBar from "./SkeletonRightSideBar";
-import BlogContext from "../contexts/BlogContext";
+import { useSelector } from "react-redux";
 
 function RightSidebar() {
   const [Users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const { user, uri } = useContext(AllContext);
-  const { users } = useContext(BlogContext);
-
+  const { user, uri } = useSelector((state) => state.AuthSlice);
+  const { users } = useSelector((state) => state.BlogSlice);
   useEffect(() => {
-    if (users.length) {
+    if (users?.length) {
       const otherUsers = users?.filter((value) => value?._id !== user?._id);
       setUsers(otherUsers);
     }
@@ -34,12 +32,14 @@ function RightSidebar() {
               onClick={() => {
                 handleProfile(value._id);
               }}
+              style={{ borderBottom: "1px solid grey" }}
             >
               {value?.image ? (
                 <img
-                  src={`${uri}/profile/${value?.image}`}
+                  src={`${uri}/profile/${value?._id}`}
                   alt="profile"
                   onClick={() => navigate(`../profile/${user?._id}`)}
+                  style={{ border: "3px solid gray" }}
                 />
               ) : (
                 <CgProfile

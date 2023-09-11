@@ -1,11 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Loading from "./Loading";
-import AllContext from "../contexts/AllContext";
+import { logout, setAccesstoken } from "../redux/slice/AuthSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function PersistentLogin() {
-  const { uri, accesstoken, logOut, setAccesstoken } = useContext(AllContext);
+  const { uri, accesstoken } = useSelector((state) => state.AuthSlice);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const persistentlogin = () => {
@@ -18,10 +20,10 @@ function PersistentLogin() {
           if (res.ok) {
             return res.json();
           } else if (res.status === 401) {
-            logOut();
+            dispatch(logout());
           }
         })
-        .then((data) => setAccesstoken(data.accesstoken))
+        .then((data) => dispatch(setAccesstoken(data.accesstoken)))
         .finally(() => setLoading(false));
     };
 
