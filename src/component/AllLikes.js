@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import { AiFillLike } from "react-icons/ai";
+import AllContext from "../contexts/AllContext";
+import BlogContext from "../contexts/BlogContext";
 
 function AllLikes() {
   const [AllLikes, setAllLikes] = useState();
-  const { like, users } = useSelector((state) => state.BlogSlice);
-  const { uri } = useSelector((state) => state.AuthSlice);
+  const { like, users } = useContext(BlogContext);
+  const { uri } = useContext(AllContext);
 
   const params = useParams();
   useEffect(() => {
@@ -19,15 +20,19 @@ function AllLikes() {
       {AllLikes?.map((value) => {
         const liker = users?.filter((i) => i?._id === value?.fromId);
         return (
-          <li key={value?._id}>
-            {liker[0]?.image ? (
-              <img src={`${uri}/profile/${liker[0]?._id}`} />
-            ) : (
-              <CgProfile size={50} />
-            )}
-            <AiFillLike size={25} color="blue" className="likeicon" />
-            <span>{liker[0]?.username}</span>
-          </li>
+          <>
+            {!liker?.length && <h3>No likes</h3>}
+
+            <li key={value?._id}>
+              {liker[0]?.image ? (
+                <img src={`${uri}/profile/${liker[0]?._id}`} />
+              ) : (
+                <CgProfile size={50} />
+              )}
+              <AiFillLike size={25} color="blue" className="likeicon" />
+              <span>{liker[0]?.username}</span>
+            </li>
+          </>
         );
       })}
     </ul>

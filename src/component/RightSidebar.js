@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { CgProfile } from "react-icons/cg";
 import SkeletonRightSideBar from "./SkeletonRightSideBar";
-import { useSelector } from "react-redux";
+import AllContext from "../contexts/AllContext";
+import BlogContext from "../contexts/BlogContext";
 
 function RightSidebar() {
   const [Users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const { uri } = useSelector((state) => state.AuthSlice);
-  const { users, user } = useSelector((state) => state.BlogSlice);
+  const { uri, user } = useContext(AllContext);
+  const { users } = useContext(BlogContext);
   useEffect(() => {
     if (users?.length) {
       const otherUsers = users?.filter((value) => value?._id !== user?._id);

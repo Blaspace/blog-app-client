@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CgProfile } from "react-icons/cg";
 import { FaUserFriends, FaBlog } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import Skeleton from "react-loading-skeleton";
-import { useSelector } from "react-redux";
+import AllContext from "../contexts/AllContext";
 
 function Nav() {
-  const { uri } = useSelector((state) => state.AuthSlice);
-  const { user } = useSelector((state) => state.BlogSlice);
+  const { uri, user } = useContext(AllContext);
   const navigate = useNavigate();
   return (
     <div className="nav">

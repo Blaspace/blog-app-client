@@ -1,27 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { CgProfile } from "react-icons/cg";
 import FriendsSkeleton from "../component/FriendsSkeleton";
-import { useSelector, useDispatch } from "react-redux";
-import { getUsers, getuser } from "../redux/slice/BlogSlice";
+import AllContext from "../contexts/AllContext";
+import BlogContext from "../contexts/BlogContext";
 
 function Friends() {
   const [newUsers, setNewUsers] = useState([]);
   const navigate = useNavigate();
-  const { uri } = useSelector((state) => state.AuthSlice);
-  const { users, user } = useSelector((state) => state.BlogSlice);
+  const { uri, user, refresh } = useContext(AllContext);
+  const { users, setUsers } = useContext(BlogContext);
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (!user) {
-      dispatch(getuser());
-    }
-  }, []);
   useEffect(() => {
     if (!users?.length) {
-      dispatch(getUsers());
+      fetch(`${uri}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 403) {
+            return refresh();
+          }
+        })
+        .then((data) => setUsers(data));
     }
-  }, []);
+  }, [users]);
+
   useEffect(() => {
     if (users?.length) {
       const otherUsers = users.filter((value) => value._id !== user._id);

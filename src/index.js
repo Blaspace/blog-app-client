@@ -4,9 +4,9 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { SkeletonTheme } from "react-loading-skeleton";
-import Store from "./redux/store/AllStore";
-import { Provider } from "react-redux";
 import ErrorBoundary from "./component/ErrorBoundary";
+import { ContextProvider } from "./contexts/AllContext";
+import { BlogProvider } from "./contexts/BlogContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,9 +14,11 @@ root.render(
     <SkeletonTheme baseColor="#ecf3ff" highlightColor="#cfd1d5">
       <BrowserRouter>
         <ErrorBoundary>
-          <Provider store={Store}>
-            <App />
-          </Provider>
+          <ContextProvider>
+            <BlogProvider>
+              <App />
+            </BlogProvider>
+          </ContextProvider>
         </ErrorBoundary>
       </BrowserRouter>
     </SkeletonTheme>

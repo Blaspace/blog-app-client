@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Loading from "../component/Loading";
 import { CgProfile } from "react-icons/cg";
-import { setAccesstoken } from "../redux/slice/AuthSlice";
-import { useDispatch, useSelector } from "react-redux";
+import AllContext from "../contexts/AllContext";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-  const { uri } = useSelector((state) => state.AuthSlice);
+  const { uri, setAccesstoken } = useContext(AllContext);
 
   const handleSubmit = () => {
     setLoading(true);
@@ -30,7 +28,7 @@ function Login() {
           throw new Error("Email and password required");
         }
       })
-      .then((data) => dispatch(setAccesstoken(data.accesstoken)))
+      .then((data) => setAccesstoken(data.accesstoken))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   };

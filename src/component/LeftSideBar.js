@@ -1,20 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CgProfile } from "react-icons/cg";
 import { FaUserFriends } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import Skeleton from "react-loading-skeleton";
-import { useDispatch } from "react-redux";
-import { logout } from "../redux/slice/AuthSlice";
-import { useSelector } from "react-redux";
-import { setUser } from "../redux/slice/BlogSlice";
+import AllContext from "../contexts/AllContext";
 
 function LeftSideBar() {
-  const { uri } = useSelector((state) => state.AuthSlice);
-  const { user } = useSelector((state) => state.BlogSlice);
+  const { uri, user, logOut } = useContext(AllContext);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const handleLogout = () => {
-    dispatch(logout());
+    logOut();
   };
   return (
     <>

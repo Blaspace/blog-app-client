@@ -1,47 +1,29 @@
 import ProfileUI from "../component/ProfileUl";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Newblog from "../component/Newblog";
 import AllBlog from "../component/AllBlog";
 import LeftSingleUser from "../component/LeftSingleUser";
 import SingleUserHeading from "../component/SingleUserHeading";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getBlog,
-  getUsers,
-  getComment,
-  getLikes,
-  getuser,
-} from "../redux/slice/BlogSlice";
-import { useEffect } from "react";
+import AllContext from "../contexts/AllContext";
+import BlogContext from "../contexts/BlogContext";
 
 function Home() {
-  const dispatch = useDispatch();
-  const { users, blog, comment, like, user } = useSelector(
-    (state) => state.BlogSlice
-  );
-  useEffect(() => {
-    if (!like?.length) {
-      dispatch(getLikes());
-    }
-  }, []);
-  useEffect(() => {
-    if (!user) {
-      dispatch(getuser());
-    }
-  }, []);
-  useEffect(() => {
-    if (!blog) {
-      dispatch(getBlog());
-    }
-  }, []);
+  const { refresh, uri } = useContext(AllContext);
+  const { setUsers, users } = useContext(BlogContext);
   useEffect(() => {
     if (!users?.length) {
-      dispatch(getUsers());
-    }
-  }, []);
-  useEffect(() => {
-    if (!comment?.length) {
-      dispatch(getComment());
+      fetch(`${uri}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 403) {
+            return refresh();
+          }
+        })
+        .then((data) => setUsers(data));
     }
   }, []);
   return (

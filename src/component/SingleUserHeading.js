@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { useParams } from "react-router";
 import { MdCameraAlt } from "react-icons/md";
 import Popup from "./Popup";
 import { useSelector } from "react-redux";
+import AllContext from "../contexts/AllContext";
+import BlogContext from "../contexts/BlogContext";
 
 function SingleUserHeading() {
   const params = useParams();
-  const { uri } = useSelector((state) => state.AuthSlice);
+  const { uri, user } = useContext(AllContext);
   const [errorMessage, setErrorMessage] = useState(null);
-  const { users, user } = useSelector((state) => state.BlogSlice);
+  const { users } = useContext(BlogContext);
   const [singleUser, setSingleUser] = useState("");
 
   useEffect(() => {

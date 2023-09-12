@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Loading from "../component/Loading";
 import Popup from "../component/Popup";
-import { useSelector, useDispatch } from "react-redux";
+import AllContext from "../contexts/AllContext";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -13,8 +13,7 @@ function Signup() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
-  const { uri } = useSelector((state) => state.AuthSlice);
-  const dispatch = useDispatch();
+  const { uri } = useContext(AllContext);
 
   const handleSignup = async () => {
     setLoading(true);
@@ -35,7 +34,6 @@ function Signup() {
         }
       })
       .catch((err) => {
-        dispatch(setLoading(false));
         setErrorMessage(err.message);
       });
   };

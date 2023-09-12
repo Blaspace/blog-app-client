@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setComment } from "../redux/slice/BlogSlice";
+import React, { useContext, useState } from "react";
+import AllContext from "../contexts/AllContext";
+import BlogContext from "../contexts/BlogContext";
 
 function CommentBox({ blogId, commenterId, setCommenterId }) {
   const [comments, setComments] = useState("");
   const [errors, sendError] = useState(null);
-  const { uri } = useSelector((state) => state.AuthSlice);
-  const { comment } = useSelector((state) => state.BlogSlice);
-  const dispatch = useDispatch();
+  const { uri } = useContext(AllContext);
+  const { comment, setComment } = useContext(BlogContext);
 
   const handleComment = (e) => {
     e.target.innerText = "Loading...";
@@ -25,7 +24,7 @@ function CommentBox({ blogId, commenterId, setCommenterId }) {
         }),
       })
         .then((res) => res.json())
-        .then((data) => dispatch(setComment([...comment, data])))
+        .then((data) => setComment([...comment, data]))
         .catch((err) => console.log(err))
         .finally(() => {
           e.target.innerText = "Send";

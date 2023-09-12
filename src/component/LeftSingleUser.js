@@ -1,17 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router";
-import { useDispatch } from "react-redux";
 import Skeleton from "react-loading-skeleton";
-import { logout, setAccesstoken } from "../redux/slice/AuthSlice";
-import { useSelector } from "react-redux";
-import { setUser } from "../redux/slice/BlogSlice";
+import AllContext from "../contexts/AllContext";
+import BlogContext from "../contexts/BlogContext";
 
 function LeftSingleUser() {
   const params = useParams();
-  const { uri } = useSelector((state) => state.AuthSlice);
-  const { users, user } = useSelector((state) => state.BlogSlice);
+  const { uri, user, setAccesstoken, logOut } = useContext(AllContext);
+  const { users } = useContext(BlogContext);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const singleUser = users.filter((user) => user?._id === params.id);
 
@@ -22,12 +19,11 @@ function LeftSingleUser() {
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({ _id: singleUser?._id }),
     }).then(() => {
-      dispatch(setAccesstoken(null));
+      setAccesstoken(null);
     });
   };
   const handleLogout = () => {
-    dispatch(logout());
-    dispatch(setUser(null));
+    logOut();
   };
   return (
     <div className="profile-left">

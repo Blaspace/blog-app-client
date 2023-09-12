@@ -1,22 +1,21 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { CgProfile } from "react-icons/cg";
 import Skeleton from "react-loading-skeleton";
-import { useSelector, useDispatch } from "react-redux";
-import { setBlog } from "../redux/slice/BlogSlice";
 import { MdAddPhotoAlternate } from "react-icons/md";
+import AllContext from "../contexts/AllContext";
+import BlogContext from "../contexts/BlogContext";
 
 function Newblog() {
   const btnref = useRef();
   const inputref = useRef();
-  const { uri } = useSelector((state) => state.AuthSlice);
-  const { blog, user } = useSelector((state) => state.BlogSlice);
+  const { uri, user } = useContext(AllContext);
+  const { blog, setBlog } = useContext(BlogContext);
   const [image, setImage] = useState();
   const [imageName, setImageName] = useState();
   const [newblog, setNewBlog] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const typing = (e) => {
     inputref.current.style.height = "100px";
@@ -75,7 +74,7 @@ function Newblog() {
       })
       .then((data) => {
         if (data) {
-          dispatch(setBlog([data, ...blog]));
+          setBlog([data, ...blog]);
           setMessage("blog posted");
         }
         setNewBlog("");

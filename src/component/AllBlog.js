@@ -1,37 +1,100 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router";
 import AllBogSkeleton from "./AllBogSkeleton";
-import { useSelector, useDispatch } from "react-redux";
 import { FaRegCommentDots } from "react-icons/fa";
 import { BiLike } from "react-icons/bi";
 import { AiFillLike } from "react-icons/ai";
 import CommentBox from "./CommentBox";
-import {
-  setLike,
-  getLikes,
-  getBlog,
-  getComment,
-} from "../redux/slice/BlogSlice";
+import AllContext from "../contexts/AllContext";
+import BlogContext from "../contexts/BlogContext";
 
 function AllBlog() {
   const navigate = useNavigate();
-  const { blog, users, comment, like, user } = useSelector(
-    (state) => state.BlogSlice
-  );
-  const { uri } = useSelector((state) => state.AuthSlice);
+  const { blog, users, comment, like, setBlog, setLike, setComment, setUsers } =
+    useContext(BlogContext);
+  const { uri, user, refresh } = useContext(AllContext);
   const [userId, setUserId] = useState(null);
   const [commenterId, setCommenterId] = useState(null);
-  const dispatch = useDispatch();
 
-  const handleComment = (blog, commenter) => {
-    setUserId(blog);
-    setCommenterId(commenter);
+  const handleComment = (b, c) => {
+    setUserId(b);
+    setCommenterId(c);
   };
+  useEffect(() => {
+    if (!users) {
+      fetch(`${uri}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 403) {
+            return refresh();
+          }
+        })
+        .then((data) => setUsers(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!like?.length) {
+      fetch(`${uri}/alllike`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 403) {
+            throw "error";
+          }
+        })
+        .then((data) => setLike(data))
+        .catch((err) => console.log(err));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!blog) {
+      fetch(`${uri}/blog`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 403) {
+            return refresh();
+          }
+        })
+        .then((data) => setBlog(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!comment?.length) {
+      fetch(`${uri}/getcomment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 400) {
+            throw "an error";
+          }
+        })
+        .then((data) => setComment(data))
+        .catch((err) => console.log(err));
+    }
+  });
+
   const handleLike = (e) => {
     if (user?._id) {
       const likeId = "like" + Math.random();
-      dispatch(setLike([...like, { likeId, fromId: user?._id, blogId: e }]));
+      setLike([...like, { likeId, fromId: user?._id, blogId: e }]);
       fetch(`${uri}/like`, {
         method: "POST",
         headers: {
@@ -48,7 +111,7 @@ function AllBlog() {
 
   const handleUnlike = (e, likeId) => {
     const i = like.filter((l) => l.likeId !== likeId);
-    dispatch(setLike(i));
+    setLike(i);
     fetch(`${uri}/unlike`, {
       method: "POST",
       headers: {
@@ -60,21 +123,6 @@ function AllBlog() {
       }),
     }).catch((err) => console.log(err));
   };
-  useEffect(() => {
-    if (!blog?.length) {
-      dispatch(getBlog());
-    }
-  }, []);
-  useEffect(() => {
-    if (!comment?.length) {
-      dispatch(getComment());
-    }
-  }, []);
-  useEffect(() => {
-    if (!like?.length) {
-      dispatch(getLikes());
-    }
-  }, []);
 
   return (
     <>

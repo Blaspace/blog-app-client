@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
+import BlogContext from "../contexts/BlogContext";
+import AllContext from "../contexts/AllContext";
 
 function AllComment() {
   const [newComment, setNewComment] = useState([]);
-  const { comment, users } = useSelector((state) => state.BlogSlice);
-  const { uri } = useSelector((state) => state.AuthSlice);
+  const { comment, users } = useContext(BlogContext);
+  const { uri } = useContext(AllContext);
 
   const params = useParams();
   useEffect(() => {

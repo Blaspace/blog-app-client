@@ -1,29 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Newblog from "../component/Newblog";
 import AllBlog from "../component/AllBlog";
 import LeftSideBar from "../component/LeftSideBar";
 import RightSidebar from "../component/RightSidebar";
-import { useSelector, useDispatch } from "react-redux";
-import { getUsers, getuser } from "../redux/slice/BlogSlice";
+import BlogContext from "../contexts/BlogContext";
+import AllContext from "../contexts/AllContext";
 
 function Profile() {
-  const { accesstoken } = useSelector((state) => state.AuthSlice);
-  const { users, user } = useSelector((state) => state.BlogSlice);
+  const { users, setUsers } = useContext(BlogContext);
+  const { uri } = useContext(AllContext);
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (!user) {
-      dispatch(getuser());
-    }
-  }, []);
-  useEffect(() => {
-    if (accesstoken) {
-      dispatch(getuser());
-    }
-  }, [accesstoken]);
   useEffect(() => {
     if (!users?.length) {
-      dispatch(getUsers());
+      fetch(`${uri}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 403) {
+            throw "error";
+          }
+        })
+        .then((data) => {
+          setUsers(data);
+        })
+        .catch((err) => console.log(err));
     }
   }, []);
 

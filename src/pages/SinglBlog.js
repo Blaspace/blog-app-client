@@ -1,28 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { CgProfile } from "react-icons/cg";
 import Popup from "../component/Popup";
 import AllBogSkeleton from "../component/AllBogSkeleton";
-import { useSelector, useDispatch } from "react-redux";
 import CommentBox from "../component/CommentBox";
-
-import {
-  setBlog,
-  getBlog,
-  getUsers,
-  getComment,
-  getLikes,
-  getuser,
-} from "../redux/slice/BlogSlice";
 import LeftSideBar from "../component/LeftSideBar";
 import AllComment from "../component/AllComment";
 import AllLikes from "../component/AllLikes";
+import AllContext from "../contexts/AllContext";
+import BlogContext from "../contexts/BlogContext";
 
 function SinglBlog() {
-  const { uri } = useSelector((state) => state.AuthSlice);
-  const { users, blog, comment, like, user } = useSelector(
-    (state) => state.BlogSlice
-  );
+  const { uri, user, refresh } = useContext(AllContext);
+  const { users, blog, setBlog, setUsers, like, setLike, comment, setComment } =
+    useContext(BlogContext);
   const [errorMesage, , setErrorMessage] = useState(null);
   const params = useParams();
   const [singleBlog, setSingleBlog] = useState([]);
@@ -33,34 +24,6 @@ function SinglBlog() {
   const editRef = useRef();
   const [bloger, setBloger] = useState([]);
   const [commenterId, setCommenterId] = useState(null);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (!user) {
-      dispatch(getuser());
-    }
-  }, []);
-  useEffect(() => {
-    if (!blog) {
-      dispatch(getBlog());
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!users?.length) {
-      dispatch(getUsers());
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!comment?.length) {
-      dispatch(getComment());
-    }
-  }, []);
-  useEffect(() => {
-    if (!like?.length) {
-      dispatch(getLikes());
-    }
-  }, []);
 
   useEffect(() => {
     const sblog = blog?.filter((value) => {
@@ -68,6 +31,76 @@ function SinglBlog() {
     });
     setSingleBlog(sblog);
   }, [blog]);
+
+  useEffect(() => {
+    if (!like?.length) {
+      fetch(`${uri}/alllike`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 403) {
+            throw "error";
+          }
+        })
+        .then((data) => setLike(data))
+        .catch((err) => console.log(err));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!blog) {
+      fetch(`${uri}/blog`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 403) {
+            return refresh();
+          }
+        })
+        .then((data) => setBlog(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!comment?.length) {
+      fetch(`${uri}/getcomment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 400) {
+            throw "an error";
+          }
+        })
+        .then((data) => setComment(data))
+        .catch((err) => console.log(err));
+    }
+  });
+
+  useEffect(() => {
+    if (!users?.length) {
+      fetch(`${uri}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 403) {
+            return refresh();
+          }
+        })
+        .then((data) => setUsers(data));
+    }
+  }, [users]);
 
   const handleEdit = () => {
     formRef.current.style.display = "block";
@@ -83,7 +116,7 @@ function SinglBlog() {
         const newBlogs = blog?.filter((value) => {
           return value?._id !== data?._id;
         });
-        dispatch(setBlog(newBlogs));
+        setBlog(newBlogs);
         navigate("../../blog");
       })
       .catch((err) => console.log(err));
