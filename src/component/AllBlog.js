@@ -69,7 +69,7 @@ function AllBlog() {
             return refresh();
           }
         })
-        .then((data) => setBlog(data));
+        .then((data) => setBlog(data?.reverse()));
     }
   }, []);
 

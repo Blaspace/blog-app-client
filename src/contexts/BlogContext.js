@@ -30,7 +30,7 @@ export function BlogProvider({ children }) {
   return (
     <BlogContext.Provider
       value={{
-        blog: blog?.reverse(),
+        blog: blog,
         setBlog,
         users,
         setUsers,
