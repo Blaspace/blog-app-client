@@ -3,18 +3,17 @@ import { useNavigate } from "react-router";
 import { CgProfile } from "react-icons/cg";
 import FriendsSkeleton from "../component/FriendsSkeleton";
 import { useSelector, useDispatch } from "react-redux";
-import { getuser } from "../redux/slice/AuthSlice";
-import { getUsers } from "../redux/slice/BlogSlice";
+import { getUsers, getuser } from "../redux/slice/BlogSlice";
 
 function Friends() {
   const [newUsers, setNewUsers] = useState([]);
   const navigate = useNavigate();
-  const { user, uri } = useSelector((state) => state.AuthSlice);
-  const { users } = useSelector((state) => state.BlogSlice);
+  const { uri } = useSelector((state) => state.AuthSlice);
+  const { users, user } = useSelector((state) => state.BlogSlice);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!user?.length) {
+    if (!user) {
       dispatch(getuser());
     }
   }, []);

@@ -4,14 +4,18 @@ import AllBlog from "../component/AllBlog";
 import LeftSideBar from "../component/LeftSideBar";
 import RightSidebar from "../component/RightSidebar";
 import { useSelector, useDispatch } from "react-redux";
-import { getuser } from "../redux/slice/AuthSlice";
-import { getUsers } from "../redux/slice/BlogSlice";
+import { getUsers, getuser } from "../redux/slice/BlogSlice";
 
 function Profile() {
   const { accesstoken } = useSelector((state) => state.AuthSlice);
-  const { users } = useSelector((state) => state.BlogSlice);
+  const { users, user } = useSelector((state) => state.BlogSlice);
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (!user) {
+      dispatch(getuser());
+    }
+  }, []);
   useEffect(() => {
     if (accesstoken) {
       dispatch(getuser());

@@ -9,8 +9,8 @@ import { MdAddPhotoAlternate } from "react-icons/md";
 function Newblog() {
   const btnref = useRef();
   const inputref = useRef();
-  const { user, uri } = useSelector((state) => state.AuthSlice);
-  const { blog } = useSelector((state) => state.BlogSlice);
+  const { uri } = useSelector((state) => state.AuthSlice);
+  const { blog, user } = useSelector((state) => state.BlogSlice);
   const [image, setImage] = useState();
   const [imageName, setImageName] = useState();
   const [newblog, setNewBlog] = useState("");

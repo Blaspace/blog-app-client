@@ -16,10 +16,10 @@ import {
 
 function AllBlog() {
   const navigate = useNavigate();
-  const { blog, users, comment, like } = useSelector(
+  const { blog, users, comment, like, user } = useSelector(
     (state) => state.BlogSlice
   );
-  const { uri, user } = useSelector((state) => state.AuthSlice);
+  const { uri } = useSelector((state) => state.AuthSlice);
   const [userId, setUserId] = useState(null);
   const [commenterId, setCommenterId] = useState(null);
   const dispatch = useDispatch();

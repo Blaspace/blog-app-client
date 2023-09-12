@@ -4,11 +4,13 @@ import { FaUserFriends } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch } from "react-redux";
-import { logout, setUser } from "../redux/slice/AuthSlice";
+import { logout } from "../redux/slice/AuthSlice";
 import { useSelector } from "react-redux";
+import { setUser } from "../redux/slice/BlogSlice";
 
 function LeftSideBar() {
-  const { user, uri } = useSelector((state) => state.AuthSlice);
+  const { uri } = useSelector((state) => state.AuthSlice);
+  const { user } = useSelector((state) => state.BlogSlice);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {

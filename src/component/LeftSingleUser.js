@@ -2,13 +2,14 @@ import React from "react";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import Skeleton from "react-loading-skeleton";
-import { logout, setAccesstoken, setUser } from "../redux/slice/AuthSlice";
+import { logout, setAccesstoken } from "../redux/slice/AuthSlice";
 import { useSelector } from "react-redux";
+import { setUser } from "../redux/slice/BlogSlice";
 
 function LeftSingleUser() {
   const params = useParams();
-  const { user, uri } = useSelector((state) => state.AuthSlice);
-  const { users } = useSelector((state) => state.BlogSlice);
+  const { uri } = useSelector((state) => state.AuthSlice);
+  const { users, user } = useSelector((state) => state.BlogSlice);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

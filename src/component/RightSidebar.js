@@ -7,8 +7,8 @@ import { useSelector } from "react-redux";
 function RightSidebar() {
   const [Users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const { user, uri } = useSelector((state) => state.AuthSlice);
-  const { users } = useSelector((state) => state.BlogSlice);
+  const { uri } = useSelector((state) => state.AuthSlice);
+  const { users, user } = useSelector((state) => state.BlogSlice);
   useEffect(() => {
     if (users?.length) {
       const otherUsers = users?.filter((value) => value?._id !== user?._id);

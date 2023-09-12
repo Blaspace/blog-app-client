@@ -2,16 +2,15 @@ import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import Popup from "../component/Popup";
 import { useSelector, useDispatch } from "react-redux";
-import { getuser } from "../redux/slice/AuthSlice";
-import { getUsers } from "../redux/slice/BlogSlice";
+import { getUsers, getuser } from "../redux/slice/BlogSlice";
 
 function EditProfile() {
   const navigate = useNavigate();
-  const { uri, user } = useSelector((state) => state.AuthSlice);
-  const { users } = useSelector((state) => state.BlogSlice);
+  const { uri } = useSelector((state) => state.AuthSlice);
+  const { users, user } = useSelector((state) => state.BlogSlice);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!user?.length) {
+    if (!user) {
       dispatch(getuser());
     }
   }, []);

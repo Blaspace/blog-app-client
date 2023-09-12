@@ -4,7 +4,6 @@ import { CgProfile } from "react-icons/cg";
 import Popup from "../component/Popup";
 import AllBogSkeleton from "../component/AllBogSkeleton";
 import { useSelector, useDispatch } from "react-redux";
-import { getuser } from "../redux/slice/AuthSlice";
 import CommentBox from "../component/CommentBox";
 
 import {
@@ -13,15 +12,15 @@ import {
   getUsers,
   getComment,
   getLikes,
+  getuser,
 } from "../redux/slice/BlogSlice";
-import RightSideBar from "../component/RightSidebar";
 import LeftSideBar from "../component/LeftSideBar";
 import AllComment from "../component/AllComment";
 import AllLikes from "../component/AllLikes";
 
 function SinglBlog() {
-  const { user, uri } = useSelector((state) => state.AuthSlice);
-  const { users, blog, comment, like } = useSelector(
+  const { uri } = useSelector((state) => state.AuthSlice);
+  const { users, blog, comment, like, user } = useSelector(
     (state) => state.BlogSlice
   );
   const [errorMesage, , setErrorMessage] = useState(null);
@@ -41,15 +40,17 @@ function SinglBlog() {
     }
   }, []);
   useEffect(() => {
-    if (!blog?.length) {
+    if (!blog) {
       dispatch(getBlog());
     }
   }, []);
+
   useEffect(() => {
     if (!users?.length) {
       dispatch(getUsers());
     }
   }, []);
+
   useEffect(() => {
     if (!comment?.length) {
       dispatch(getComment());

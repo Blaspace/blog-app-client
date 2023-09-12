@@ -7,9 +7,9 @@ import { useSelector } from "react-redux";
 
 function SingleUserHeading() {
   const params = useParams();
-  const { user, uri } = useSelector((state) => state.AuthSlice);
+  const { uri } = useSelector((state) => state.AuthSlice);
   const [errorMessage, setErrorMessage] = useState(null);
-  const { users } = useSelector((state) => state.BlogSlice);
+  const { users, user } = useSelector((state) => state.BlogSlice);
   const [singleUser, setSingleUser] = useState("");
 
   useEffect(() => {

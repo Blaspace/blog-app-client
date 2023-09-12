@@ -6,7 +6,8 @@ import Skeleton from "react-loading-skeleton";
 import { useSelector } from "react-redux";
 
 function Nav() {
-  const { user, uri } = useSelector((state) => state.AuthSlice);
+  const { uri } = useSelector((state) => state.AuthSlice);
+  const { user } = useSelector((state) => state.BlogSlice);
   const navigate = useNavigate();
   return (
     <div className="nav">

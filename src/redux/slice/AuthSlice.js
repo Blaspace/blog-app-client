@@ -29,35 +29,15 @@ export const logout = createAsyncThunk("logout", () => {
   });
 });
 
-export const getuser = createAsyncThunk("getuser", () => {
-  return fetch(`${uri}/get`, {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else if (res.status === 400) {
-        throw "an error";
-      }
-    })
-    .catch((err) => console.log(err));
-});
-
 const AuthSlice = createSlice({
   name: "AuthSlice",
   initialState: {
     accesstoken: null,
-    user: null,
     uri,
   },
   reducers: {
     setAccesstoken: (state, { payload }) => {
       state.accesstoken = payload;
-    },
-    setUser: (state, { payload }) => {
-      state.user = payload;
     },
   },
   extraReducers: {
@@ -75,13 +55,9 @@ const AuthSlice = createSlice({
     [logout.rejected]: (state) => {
       state.accesstoken = null;
     },
-    //get user
-    [getuser.fulfilled]: (state, { payload }) => {
-      state.user = payload;
-    },
   },
 });
 
 export default AuthSlice.reducer;
 
-export const { setAccesstoken, setUser } = AuthSlice.actions;
+export const { setAccesstoken } = AuthSlice.actions;

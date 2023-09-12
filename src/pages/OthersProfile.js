@@ -5,34 +5,32 @@ import AllBlog from "../component/AllBlog";
 import LeftSingleUser from "../component/LeftSingleUser";
 import SingleUserHeading from "../component/SingleUserHeading";
 import { useDispatch, useSelector } from "react-redux";
-import { getuser } from "../redux/slice/AuthSlice";
 import {
   getBlog,
   getUsers,
   getComment,
   getLikes,
+  getuser,
 } from "../redux/slice/BlogSlice";
 import { useEffect } from "react";
 
 function Home() {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.AuthSlice);
-  const { users, blog, comment, like } = useSelector(
+  const { users, blog, comment, like, user } = useSelector(
     (state) => state.BlogSlice
   );
-
   useEffect(() => {
     if (!like?.length) {
       dispatch(getLikes());
     }
   }, []);
   useEffect(() => {
-    if (!user?.length) {
+    if (!user) {
       dispatch(getuser());
     }
   }, []);
   useEffect(() => {
-    if (!blog?.length) {
+    if (!blog) {
       dispatch(getBlog());
     }
   }, []);

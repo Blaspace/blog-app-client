@@ -56,6 +56,21 @@ export const getLikes = createAsyncThunk("getlikes", () => {
     }
   });
 });
+export const getuser = createAsyncThunk("getuser", () => {
+  return fetch(`${uri}/get`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else if (res.status === 400) {
+        throw "an error";
+      }
+    })
+    .catch((err) => console.log(err));
+});
 
 const BlogSlice = createSlice({
   name: "BlogSlice",
@@ -64,6 +79,7 @@ const BlogSlice = createSlice({
     blog: null,
     comment: [],
     like: [],
+    user: null,
   },
   reducers: {
     setUsers: (state, { payload }) => {
@@ -77,6 +93,9 @@ const BlogSlice = createSlice({
     },
     setLike: (state, { payload }) => {
       state.like = payload;
+    },
+    setUser: (state, { payload }) => {
+      state.user = payload;
     },
   },
   extraReducers: {
@@ -92,9 +111,14 @@ const BlogSlice = createSlice({
     [getComment.fulfilled]: (state, { payload }) => {
       state.comment = payload;
     },
+    //get user
+    [getuser.fulfilled]: (state, { payload }) => {
+      state.user = payload;
+    },
   },
 });
 
 export default BlogSlice.reducer;
 
-export const { setBlog, setUsers, setComment, setLike } = BlogSlice.actions;
+export const { setBlog, setUsers, setComment, setLike, setUser } =
+  BlogSlice.actions;

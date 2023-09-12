@@ -24,8 +24,8 @@ function AllComment() {
                 <img
                   src={`${uri}/profile/${commenter[0]?._id}`}
                   alt="profile"
-                  width={25}
-                  height={25}
+                  width={30}
+                  height={30}
                   style={{ borderRadius: "50%", border: "2px solid grey" }}
                 />
               ) : (
