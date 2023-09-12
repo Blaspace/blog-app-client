@@ -15,7 +15,6 @@ function LeftSideBar() {
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
-    dispatch(setUser(null));
   };
   return (
     <>
