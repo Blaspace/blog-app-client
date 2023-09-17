@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from "react";
-import Newblog from "../component/Newblog";
-import AllBlog from "../component/AllBlog";
-import LeftSideBar from "../component/LeftSideBar";
-import RightSidebar from "../component/RightSidebar";
-import BlogContext from "../contexts/BlogContext";
-import AllContext from "../contexts/AllContext";
+import Newblog from "./Newblog";
+import AllBlog from "./AllBlog";
+import LeftSideBar from "./LeftSideBar";
+import RightSidebar from "./RightSidebar";
+import BlogContext from "../../contexts/BlogContext";
+import AllContext from "../../contexts/AllContext";
 
 function Profile() {
   const { users, setUsers } = useContext(BlogContext);

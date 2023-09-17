@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { AiFillLike } from "react-icons/ai";
-import AllContext from "../contexts/AllContext";
-import BlogContext from "../contexts/BlogContext";
+import AllContext from "../../contexts/AllContext";
+import BlogContext from "../../contexts/BlogContext";
 
 function AllLikes() {
   const [AllLikes, setAllLikes] = useState();
@@ -21,8 +21,6 @@ function AllLikes() {
         const liker = users?.filter((i) => i?._id === value?.fromId);
         return (
           <>
-            {!liker?.length && <h3>No likes</h3>}
-
             <li key={value?._id}>
               {liker[0]?.image ? (
                 <img src={`${uri}/profile/${liker[0]?._id}`} />

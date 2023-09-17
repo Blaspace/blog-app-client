@@ -3,7 +3,7 @@ import { CgProfile } from "react-icons/cg";
 import { FaUserFriends } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import Skeleton from "react-loading-skeleton";
-import AllContext from "../contexts/AllContext";
+import AllContext from "../../contexts/AllContext";
 
 function LeftSideBar() {
   const { uri, user, logOut } = useContext(AllContext);

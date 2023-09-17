@@ -1,11 +1,11 @@
-import ProfileUI from "../component/ProfileUl";
+import ProfileUI from "./ProfileUl";
 import React, { useContext, useEffect } from "react";
-import Newblog from "../component/Newblog";
-import AllBlog from "../component/AllBlog";
-import LeftSingleUser from "../component/LeftSingleUser";
-import SingleUserHeading from "../component/SingleUserHeading";
-import AllContext from "../contexts/AllContext";
-import BlogContext from "../contexts/BlogContext";
+import Newblog from "../blog/Newblog";
+import AllBlog from "../blog/AllBlog";
+import LeftSingleUser from "./LeftSingleUser";
+import SingleUserHeading from "./SingleUserHeading";
+import AllContext from "../../contexts/AllContext";
+import BlogContext from "../../contexts/BlogContext";
 
 function Home() {
   const { refresh, uri } = useContext(AllContext);

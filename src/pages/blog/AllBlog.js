@@ -6,8 +6,8 @@ import { FaRegCommentDots } from "react-icons/fa";
 import { BiLike } from "react-icons/bi";
 import { AiFillLike } from "react-icons/ai";
 import CommentBox from "./CommentBox";
-import AllContext from "../contexts/AllContext";
-import BlogContext from "../contexts/BlogContext";
+import AllContext from "../../contexts/AllContext";
+import BlogContext from "../../contexts/BlogContext";
 
 function AllBlog() {
   const navigate = useNavigate();
@@ -206,7 +206,7 @@ function AllBlog() {
                   <small>{blogLike?.length}</small>
                 </span>
                 <span
-                  onClick={() => handleComment(value._id, bloger[0]._id)}
+                  onClick={() => handleComment(value?._id, user?._id)}
                   style={{ cursor: "pointer" }}
                 >
                   <FaRegCommentDots size={25} color="rgb(58, 58, 58)" />

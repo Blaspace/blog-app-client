@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import AllContext from "../contexts/AllContext";
-import BlogContext from "../contexts/BlogContext";
+import AllContext from "../../contexts/AllContext";
+import BlogContext from "../../contexts/BlogContext";
 
 function CommentBox({ blogId, commenterId, setCommenterId }) {
   const [comments, setComments] = useState("");

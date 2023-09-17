@@ -3,8 +3,8 @@ import { useNavigate } from "react-router";
 import { CgProfile } from "react-icons/cg";
 import Skeleton from "react-loading-skeleton";
 import { MdAddPhotoAlternate } from "react-icons/md";
-import AllContext from "../contexts/AllContext";
-import BlogContext from "../contexts/BlogContext";
+import AllContext from "../../contexts/AllContext";
+import BlogContext from "../../contexts/BlogContext";
 
 function Newblog() {
   const btnref = useRef();

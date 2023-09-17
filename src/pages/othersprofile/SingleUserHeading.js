@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { useParams } from "react-router";
 import { MdCameraAlt } from "react-icons/md";
-import Popup from "./Popup";
+import Popup from "../../component/Popup";
 import { useSelector } from "react-redux";
-import AllContext from "../contexts/AllContext";
-import BlogContext from "../contexts/BlogContext";
+import AllContext from "../../contexts/AllContext";
+import BlogContext from "../../contexts/BlogContext";
 
 function SingleUserHeading() {
   const params = useParams();

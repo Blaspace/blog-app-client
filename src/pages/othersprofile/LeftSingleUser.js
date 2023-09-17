@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router";
 import Skeleton from "react-loading-skeleton";
-import AllContext from "../contexts/AllContext";
-import BlogContext from "../contexts/BlogContext";
+import AllContext from "../../contexts/AllContext";
+import BlogContext from "../../contexts/BlogContext";
 
 function LeftSingleUser() {
   const params = useParams();

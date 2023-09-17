@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
-import BlogContext from "../contexts/BlogContext";
-import AllContext from "../contexts/AllContext";
+import BlogContext from "../../contexts/BlogContext";
+import AllContext from "../../contexts/AllContext";
 
 function AllComment() {
   const [newComment, setNewComment] = useState([]);
@@ -11,13 +11,13 @@ function AllComment() {
 
   const params = useParams();
   useEffect(() => {
-    const i = comment?.filter((v) => v?.blogId === params.id);
+    const i = comment?.filter((v) => v?.blogId === params?.id);
     setNewComment(i);
   }, [comment]);
   return (
     <div className="allComment">
       {newComment?.map((value) => {
-        const commenter = users?.filter((v) => v._id === value.commenterId);
+        const commenter = users?.filter((v) => v._id === value?.commenterId);
         return (
           <div key={value?._id}>
             <h4>

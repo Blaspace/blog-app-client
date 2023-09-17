@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { CgProfile } from "react-icons/cg";
-import Popup from "../component/Popup";
-import AllBogSkeleton from "../component/AllBogSkeleton";
-import CommentBox from "../component/CommentBox";
-import LeftSideBar from "../component/LeftSideBar";
-import AllComment from "../component/AllComment";
-import AllLikes from "../component/AllLikes";
-import AllContext from "../contexts/AllContext";
-import BlogContext from "../contexts/BlogContext";
+import Popup from "../../component/Popup";
+import AllBogSkeleton from "../blog/AllBogSkeleton";
+import CommentBox from "../blog/CommentBox";
+import LeftSideBar from "../blog/LeftSideBar";
+import AllComment from "./AllComment";
+import AllLikes from "./AllLikes";
+import AllContext from "../../contexts/AllContext";
+import BlogContext from "../../contexts/BlogContext";
 
 function SinglBlog() {
   const { uri, user, refresh } = useContext(AllContext);

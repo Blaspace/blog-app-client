@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { CgProfile } from "react-icons/cg";
-import FriendsSkeleton from "../component/FriendsSkeleton";
-import AllContext from "../contexts/AllContext";
-import BlogContext from "../contexts/BlogContext";
+import FriendsSkeleton from "./FriendsSkeleton";
+import AllContext from "../../contexts/AllContext";
+import BlogContext from "../../contexts/BlogContext";
 
 function Friends() {
   const [newUsers, setNewUsers] = useState([]);
@@ -30,7 +30,7 @@ function Friends() {
 
   useEffect(() => {
     if (users?.length) {
-      const otherUsers = users.filter((value) => value._id !== user._id);
+      const otherUsers = users?.filter((value) => value?._id !== user?._id);
       setNewUsers(otherUsers);
     }
   }, [users]);

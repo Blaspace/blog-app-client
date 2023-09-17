@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { CgProfile } from "react-icons/cg";
-import SkeletonRightSideBar from "./SkeletonRightSideBar";
-import AllContext from "../contexts/AllContext";
-import BlogContext from "../contexts/BlogContext";
+import SkeletonRightSideBar from "../../component/SkeletonRightSideBar";
+import AllContext from "../../contexts/AllContext";
+import BlogContext from "../../contexts/BlogContext";
 
 function RightSidebar() {
   const [Users, setUsers] = useState([]);
