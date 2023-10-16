@@ -7,7 +7,7 @@ export function ContextProvider({ children }) {
   const [user, setUser] = useState({});
   const [accesstoken, setAccesstoken] = useState(null);
 
-  const uri = "https://blog-app-ux9e.onrender.com";
+  const uri = "https://blogserver-n5ws.onrender.com";
   //const uri = "http://localhost:3500";
 
   const logOut = () => {
