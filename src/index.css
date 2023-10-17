@@ -316,6 +316,10 @@
   width: 100%;
   color: rgb(58, 58, 58);
 }
+.blog-profile{
+display:flex;
+align-item: center;
+}
 .blog-text {
   padding: 10px;
   font-size: 16px;
