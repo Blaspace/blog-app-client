@@ -151,7 +151,7 @@ function AllBlog() {
                     src={`${uri}/profile/${bloger[0]?._id}`}
                     alt="profile"
                     onClick={() => navigate(`../profile/${bloger?._id}`)}
-                    style={{ border: "3px solid lightgrey" }}
+                    style={{ border: "2px solid lightgrey" }}
                   />
                 ) : (
                   <CgProfile
