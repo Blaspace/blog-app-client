@@ -146,7 +146,7 @@ function AllBlog() {
                 onClick={() => navigate(`../profile/${value?.userid}`)}
               >
                 {/*checking if the bloger has any image*/}
-                {bloger[0]?.image ? (
+                {bloger[0]?.hasimage ? (
                   <img
                     src={`${uri}/profile/${bloger[0]?._id}`}
                     alt="profile"
@@ -174,7 +174,7 @@ function AllBlog() {
                   {value?.blog && value?.blog.slice(0, 200)}
                   {value?.blog && value?.blog?.length > 200 && "..."}
                 </p>
-                {value?.blogimagename && (
+                {value?.hasimage && (
                   <div className="blog-image">
                     <img
                       src={`${uri}/blogimage/${value._id}`}
