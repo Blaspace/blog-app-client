@@ -57,7 +57,7 @@ function Friends() {
                   handleProfile(value._id);
                 }}
               >
-                {value.image ? (
+                {value.hasimage ? (
                   <img src={`${uri}/profile/${value?._id}`} alt="profile" />
                 ) : (
                   <CgProfile style={{ fontSize: "50px" }} />

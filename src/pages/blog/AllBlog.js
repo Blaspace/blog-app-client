@@ -160,7 +160,7 @@ function AllBlog() {
                   />
                 )}
                 <span>
-                  <p style={{ fontWeight: "450" }}>{value?.username}</p>
+                  <p style={{ fontWeight: "450" }}>{bloger[0]?.username}</p>
                   <p style={{ color: "grey", fontSize: "smaller" }}>
                     {bloger[0]?.email}
                   </p>

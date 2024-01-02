@@ -126,7 +126,7 @@ function Newblog() {
                   width={"50px"}
                   style={{ marginRight: "10px" }}
                 />
-              ) : user?.image ? (
+              ) : user?.hasimage ? (
                 <img
                   src={`${uri}/profile/${user?._id}`}
                   alt="profile"

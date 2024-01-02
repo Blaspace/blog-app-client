@@ -29,11 +29,13 @@ function Signup() {
           setLoading(false);
           navigate("../");
         } else if (res.status === 409) {
-          setLoading(false);
           throw new Error("this email has already been used");
+        } else {
+          throw new Error("server error");
         }
       })
       .catch((err) => {
+        setLoading(false);
         setErrorMessage(err.message);
       });
   };

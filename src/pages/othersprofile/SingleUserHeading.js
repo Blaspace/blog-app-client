@@ -43,7 +43,7 @@ function SingleUserHeading() {
       <Popup errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
       <header className="profile-header">
         <div className="profile-img">
-          {singleUser?.length && singleUser[0]?.image ? (
+          {singleUser?.length && singleUser[0]?.hasimage ? (
             <img src={`${uri}/profile/${singleUser[0]?._id}`} alt="profile" />
           ) : (
             <CgProfile className="user-profile-icon" />

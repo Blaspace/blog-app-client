@@ -25,7 +25,7 @@ function Nav() {
         className="nav-profile"
         onClick={() => navigate(`../profile/${user?._id}`)}
       >
-        {user?.image ? (
+        {user?.hasimage ? (
           <>
             {!user ? (
               <Skeleton

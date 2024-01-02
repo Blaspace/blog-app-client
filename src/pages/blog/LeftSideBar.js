@@ -18,7 +18,7 @@ function LeftSideBar() {
           className="left-sidebar-header"
           onClick={() => navigate(`../profile/${user._id}`)}
         >
-          {user?.image ? (
+          {user?.hasimage ? (
             <>
               {!user ? (
                 <Skeleton circle height={"60px"} width={"60px"} />
@@ -50,7 +50,7 @@ function LeftSideBar() {
               />
             ) : (
               <>
-                {user?.name}
+                {user?.username}
                 <br />
                 <span style={{ color: "gray", fontSize: "small" }}>
                   {user?.email}
